@@ -10,11 +10,18 @@ class World {
   ];
   canvas;
   ctx;
+  keyboard;
 
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");
+    this.keyboard = keyboard;
     this.draw();
+    this.setWorld();
+  }
+
+  setWorld() {
+    this.character.world = this;
   }
 
   draw() {
@@ -38,6 +45,25 @@ class World {
   }
 
   addToMap(object) {
+    if (object.otherDirection) {
+      flipImage(object);
+    }
     this.ctx.drawImage(object.img, object.x, object.y, object.width, object.height);
+
+    if (object.otherDirection) {
+      flipImageBack(object);
+    }
+  }
+
+  flipImage(object) {
+    this.ctx.save();
+    this.ctx.translate(object.width, 0);
+    this.ctx.scale(-1, 1);
+    object.x = object.x * -1;
+  }
+
+  flipImageBack(object) {
+    object.x = object.x * -1;
+    this.ctx.restore();
   }
 }
