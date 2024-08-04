@@ -1,8 +1,7 @@
 class World {
   character = new Character();
-  enemies = level1.enemies;
-  clouds = level1.clouds;
-  backgrounds = level1.backgrounds;
+  healthBar = new StatusBar();
+  level = level1;
   canvas;
   ctx;
   keyboard;
@@ -14,6 +13,7 @@ class World {
     this.keyboard = keyboard;
     this.draw();
     this.setWorld();
+    this.checkCollisions();
   }
 
   setWorld() {
@@ -25,11 +25,14 @@ class World {
 
     this.ctx.translate(this.camera_x, 0);
 
-    this.addObjectsToMap(this.backgrounds);
-    this.addObjectsToMap(this.clouds);
-    this.addObjectsToMap(this.enemies);
+    this.addObjectsToMap(this.level.backgrounds);
+    this.addObjectsToMap(this.level.clouds);
+    this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
 
+    this.ctx.translate(-this.camera_x, 0);
+    this.addToMap(this.healthBar);
+    this.ctx.translate(this.camera_x, 0);
     this.ctx.translate(-this.camera_x, 0);
 
     let self = this;
@@ -48,11 +51,24 @@ class World {
     if (object.otherDirection) {
       this.flipImage(object);
     }
-    this.ctx.drawImage(object.img, object.x, object.y, object.width, object.height);
+
+    object.draw(this.ctx);
+    object.drawFrame(this.ctx);
 
     if (object.otherDirection) {
       this.flipImageBack(object);
     }
+  }
+
+  checkCollisions() {
+    setInterval(() => {
+      this.level.enemies.forEach((enemy) => {
+        if (this.character.isColliding(enemy)) {
+          this.character.hit();
+          this.healthBar.setPercentage(this.character.energy);
+        }
+      });
+    }, 100);
   }
 
   flipImage(object) {
