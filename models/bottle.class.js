@@ -33,7 +33,7 @@ class Bottle extends MovableObject {
   }
 
   throw() {
-    this.speedY = 30;
+    this.speedY = 10;
     this.applyGravity();
     setInterval(() => {
       if (this.exploding == false) {
@@ -63,8 +63,7 @@ class Bottle extends MovableObject {
       this.currentImage++;
       if (this.currentImage === images.length) {
         this.exploding = false;
-
-        this.world.throwableBottles.splice(this.world.throwableBottles[this.index], 1);
+        this.world.throwableBottles.splice(this.index, 1);
       }
     } else {
       this.currentImage = 0;

@@ -20,6 +20,10 @@ class World {
 
   setWorld() {
     this.character.world = this;
+    this.level.enemies.forEach((enemy, index) => {
+      enemy.world = this;
+      enemy.index = index;
+    });
   }
 
   draw() {
@@ -75,7 +79,6 @@ class World {
       });
       this.level.throwableObjects.forEach((throwableObject, index) => {
         if (this.character.isColliding(throwableObject)) {
-          console.log(throwableObject);
           this.character.collectBottle(index);
           this.bottleBar.setPercentage(this.character.bottles);
         }
@@ -84,7 +87,10 @@ class World {
       this.throwableBottles.forEach((bottle) => {
         this.level.enemies.forEach((enemy) => {
           if (bottle.isColliding(enemy)) {
-            bottle.explode();
+            if (enemy.chickenIsDead === false) {
+              bottle.explode();
+              enemy.dies();
+            }
           }
         });
       });

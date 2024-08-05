@@ -9,11 +9,13 @@ class Endboss extends MovableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G11.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G12.png",
   ];
-  x = 700;
+  x = 1000;
   y = 50;
   width = 250;
   height = 400;
   speedOfChangingToNextImage = 150;
+  world;
+  index;
 
   constructor() {
     super().loadImage("img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png");

@@ -3,8 +3,7 @@ class MovableObject extends DrawableObject {
   speedX = 0.15;
   speedY = 0;
   acceleration = 2.5;
-
-  energy = 1000;
+  energy = 10;
   lastHit;
 
   applyGravity() {

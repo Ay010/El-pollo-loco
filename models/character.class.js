@@ -57,6 +57,7 @@ class Character extends MovableObject {
   otherDirection;
   bottles = 0;
   isThrowing = false;
+  stopAnimation = false;
 
   constructor() {
     super().loadImage("img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png");
@@ -74,18 +75,27 @@ class Character extends MovableObject {
   // move
   animate() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isHurt()) {
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead()) {
         this.moveRight();
         this.otherDirection = false;
       }
 
-      if (this.world.keyboard.LEFT && this.x > 0 && !this.isHurt()) {
+      if (this.world.keyboard.LEFT && this.x > -50 && !this.isHurt() && !this.isDead()) {
         this.moveLeft();
         this.otherDirection = true;
       }
 
-      if ((this.world.keyboard.UP && !this.isAboveGround()) || (this.world.keyboard.SPACE && !this.isAboveGround())) {
+      if (
+        (this.world.keyboard.UP && !this.isAboveGround() && !this.isDead()) ||
+        (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead())
+      ) {
         this.jump();
+      }
+
+      if (this.isDead()) {
+        setInterval(() => {
+          this.y += 2;
+        }, 500);
       }
 
       if (this.world.keyboard.KEY_F) {
@@ -111,7 +121,7 @@ class Character extends MovableObject {
     // Animations
     setInterval(() => {
       if (this.isDead()) {
-        this.playAnimation(this.IMAGES_DEAD);
+        this.playDeadAnimationOnes(this.IMAGES_DEAD);
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
       } else if (this.isAboveGround()) {
@@ -124,6 +134,20 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_STANDING);
       }
     }, this.speedOfChangingToNextImage);
+  }
+
+  playDeadAnimationOnes(images) {
+    if (this.currentImage < images.length && this.stopAnimation === false) {
+      let path = images[this.currentImage];
+      this.img = this.imageCache[path];
+      this.currentImage++;
+      if (this.currentImage === images.length) {
+        this.stopAnimation = true;
+        this.acceleration = 0;
+      }
+    } else {
+      this.currentImage = 0;
+    }
   }
 
   collectBottle(index) {

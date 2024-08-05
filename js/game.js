@@ -14,7 +14,7 @@ window.addEventListener("keydown", (e) => {
     keyboard.SPACE = true;
   }
 
-  if (keyboard.UP === false && e.code == "ArrowUp") {
+  if (keyboard.UP === false && e.code == "ArrowUp" && !world.character.isAboveGround() && !world.character.isDead()) {
     world.character.currentImage = 0;
   }
 
