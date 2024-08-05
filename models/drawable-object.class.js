@@ -20,12 +20,25 @@ class DrawableObject {
     });
   }
 
+  playAnimation(images) {
+    let i = this.currentImage % images.length;
+    let path = images[i];
+    this.img = this.imageCache[path];
+    this.currentImage++;
+  }
+
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
   drawFrame(ctx) {
-    if (this instanceof Character || this instanceof Chicken || this instanceof Endboss) {
+    if (
+      this instanceof Character ||
+      this instanceof Chicken ||
+      this instanceof Endboss ||
+      this instanceof CollectableObject ||
+      this instanceof Bottle
+    ) {
       ctx.beginPath();
       ctx.rect(this.x, this.y, this.width, this.height);
       ctx.strokeStyle = "blue";

@@ -14,6 +14,10 @@ window.addEventListener("keydown", (e) => {
     keyboard.SPACE = true;
   }
 
+  if (keyboard.UP === false && e.code == "ArrowUp") {
+    world.character.currentImage = 0;
+  }
+
   if (e.code == "ArrowUp") {
     keyboard.UP = true;
   }
@@ -28,6 +32,10 @@ window.addEventListener("keydown", (e) => {
 
   if (e.code == "ArrowDown") {
     keyboard.DOWN = true;
+  }
+
+  if (e.code == "KeyF") {
+    keyboard.KEY_F = true;
   }
 });
 
@@ -50,5 +58,9 @@ window.addEventListener("keyup", (e) => {
 
   if (e.code == "ArrowDown") {
     keyboard.DOWN = false;
+  }
+
+  if (e.code == "KeyF") {
+    keyboard.KEY_F = false;
   }
 });

@@ -1,6 +1,8 @@
 class World {
   character = new Character();
-  healthBar = new StatusBar();
+  healthBar = new HealthBar();
+  bottleBar = new BottleBar();
+  throwableBottles = [];
   level = level1;
   canvas;
   ctx;
@@ -28,10 +30,13 @@ class World {
     this.addObjectsToMap(this.level.backgrounds);
     this.addObjectsToMap(this.level.clouds);
     this.addObjectsToMap(this.level.enemies);
+    this.addObjectsToMap(this.level.throwableObjects);
+    this.addObjectsToMap(this.throwableBottles);
     this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.healthBar);
+    this.addToMap(this.bottleBar);
     this.ctx.translate(this.camera_x, 0);
     this.ctx.translate(-this.camera_x, 0);
 
@@ -67,6 +72,21 @@ class World {
           this.character.hit();
           this.healthBar.setPercentage(this.character.energy);
         }
+      });
+      this.level.throwableObjects.forEach((throwableObject, index) => {
+        if (this.character.isColliding(throwableObject)) {
+          console.log(throwableObject);
+          this.character.collectBottle(index);
+          this.bottleBar.setPercentage(this.character.bottles);
+        }
+      });
+
+      this.throwableBottles.forEach((bottle) => {
+        this.level.enemies.forEach((enemy) => {
+          if (bottle.isColliding(enemy)) {
+            bottle.explode();
+          }
+        });
       });
     }, 100);
   }

@@ -1,6 +1,7 @@
 class Character extends MovableObject {
   IMAGES_STANDING = [
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png",
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-2.png",
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-3.png",
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-4.png",
@@ -20,15 +21,22 @@ class Character extends MovableObject {
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-26.png",
   ];
   IMAGES_JUMP = [
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-31.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-32.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-33.png",
+    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-34.png",
+    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-34.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-34.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-35.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-36.png",
+    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-36.png",
+    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-37.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-37.png",
     "img/img_pollo_locco/img/2_character_pepe/3_jump/J-38.png",
-    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-39.png",
+    "img/img_pollo_locco/img/2_character_pepe/3_jump/J-38.png",
+  ];
+  IMAGES_THROW = ["img/img_pollo_locco/img/2_character_pepe/3_jump/J-34.png"];
+  IMAGES_HURT = [
+    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png",
+    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png",
+    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png",
   ];
   IMAGES_DEAD = [
     "img/img_pollo_locco/img/2_character_pepe/5_dead/D-51.png",
@@ -39,28 +47,23 @@ class Character extends MovableObject {
     "img/img_pollo_locco/img/2_character_pepe/5_dead/D-56.png",
     "img/img_pollo_locco/img/2_character_pepe/5_dead/D-57.png",
   ];
-  IMAGES_HURT = [
-    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-41.png",
-    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-42.png",
-    "img/img_pollo_locco/img/2_character_pepe/4_hurt/H-43.png",
-  ];
   x = 100;
   y = 205;
   width = 110;
   height = 220;
   world;
-  speedOfChangingToNextImage = 80;
-  movementSpeed = 6;
+  speedOfChangingToNextImage = 120;
+  speedX = 6;
   otherDirection;
-  speedY = 0;
-  acceleration = 2.5;
-  isJumping = false;
+  bottles = 0;
+  isThrowing = false;
 
   constructor() {
     super().loadImage("img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.IMAGES_STANDING);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMP);
+    this.loadImages(this.IMAGES_THROW);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
 
@@ -68,14 +71,15 @@ class Character extends MovableObject {
     this.applyGravity();
   }
 
+  // move
   animate() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isHurt()) {
         this.moveRight();
         this.otherDirection = false;
       }
 
-      if (this.world.keyboard.LEFT && this.x > 0) {
+      if (this.world.keyboard.LEFT && this.x > 0 && !this.isHurt()) {
         this.moveLeft();
         this.otherDirection = true;
       }
@@ -83,9 +87,28 @@ class Character extends MovableObject {
       if ((this.world.keyboard.UP && !this.isAboveGround()) || (this.world.keyboard.SPACE && !this.isAboveGround())) {
         this.jump();
       }
+
+      if (this.world.keyboard.KEY_F) {
+        if (this.bottles > 0 && !this.isThrowing) {
+          this.isThrowing = true;
+          this.bottles--;
+          let bottle = new Bottle(this.x + 50, this.y + 80, this.world, this.world.throwableBottles.length);
+          this.world.throwableBottles.push(bottle);
+          this.world.bottleBar.setPercentage(this.bottles);
+          setTimeout(() => {
+            this.isThrowing = false;
+          }, 1000);
+        }
+      }
+
+      if (this.isHurt() && this.x > 0) {
+        this.x -= 4;
+      }
+
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
+    // Animations
     setInterval(() => {
       if (this.isDead()) {
         this.playAnimation(this.IMAGES_DEAD);
@@ -95,22 +118,18 @@ class Character extends MovableObject {
         this.playAnimation(this.IMAGES_JUMP);
       } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
         this.playAnimation(this.IMAGES_WALKING);
+      } else if (this.world.keyboard.KEY_F && this.isThrowing) {
+        this.playAnimation(this.IMAGES_THROW);
       } else {
         this.playAnimation(this.IMAGES_STANDING);
       }
     }, this.speedOfChangingToNextImage);
   }
 
-  applyGravity() {
-    setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0) {
-        this.y -= this.speedY;
-        this.speedY -= this.acceleration;
-      }
-    }, 1000 / 25);
-  }
-
-  isAboveGround() {
-    return this.y < 200;
+  collectBottle(index) {
+    if (this.bottles < 5) {
+      this.world.level.throwableObjects.splice(this.world.level.throwableObjects[index], 1);
+      this.bottles++;
+    }
   }
 }

@@ -1,14 +1,23 @@
 class MovableObject extends DrawableObject {
   speedOfChangingToNextImage = 100;
-  movementSpeed = 0.15;
-  energy = 100;
+  speedX = 0.15;
+  speedY = 0;
+  acceleration = 2.5;
+
+  energy = 1000;
   lastHit;
 
-  playAnimation(images) {
-    let i = this.currentImage % images.length;
-    let path = images[i];
-    this.img = this.imageCache[path];
-    this.currentImage++;
+  applyGravity() {
+    setInterval(() => {
+      if (this.isAboveGround() || this.speedY > 0 || this instanceof Bottle) {
+        this.y -= this.speedY;
+        this.speedY -= this.acceleration;
+      }
+    }, 1000 / 25);
+  }
+
+  isAboveGround() {
+    return this.y < 200;
   }
 
   isColliding(obj) {
@@ -27,7 +36,7 @@ class MovableObject extends DrawableObject {
   isHurt() {
     let timePassed = new Date().getTime() - this.lastHit;
     timePassed = timePassed / 1000;
-    return timePassed < 1;
+    return timePassed < 0.5;
   }
 
   isDead() {
@@ -35,14 +44,14 @@ class MovableObject extends DrawableObject {
   }
 
   moveRight() {
-    this.x += this.movementSpeed;
+    this.x += this.speedX;
   }
 
   moveLeft() {
-    this.x -= this.movementSpeed;
+    this.x -= this.speedX;
   }
 
   jump() {
-    this.speedY = 25;
+    this.speedY = 30;
   }
 }

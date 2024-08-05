@@ -13,7 +13,7 @@ class Endboss extends MovableObject {
   y = 50;
   width = 250;
   height = 400;
-  speedOfChangingToNextImage = 120;
+  speedOfChangingToNextImage = 150;
 
   constructor() {
     super().loadImage("img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png");
