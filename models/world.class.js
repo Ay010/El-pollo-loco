@@ -2,6 +2,7 @@ class World {
   character = new Character();
   healthBar = new HealthBar();
   bottleBar = new BottleBar();
+  endbossHealthBar = new EndbossHealthBar();
   throwableBottles = [];
   level = level1;
   canvas;
@@ -41,6 +42,10 @@ class World {
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);
+
+    if (this.character.x > 400) {
+      this.addToMap(this.endbossHealthBar);
+    }
     this.ctx.translate(this.camera_x, 0);
     this.ctx.translate(-this.camera_x, 0);
 
@@ -73,7 +78,7 @@ class World {
     setInterval(() => {
       this.level.enemies.forEach((enemy) => {
         if (this.character.isColliding(enemy)) {
-          this.character.hit();
+          this.character.hit(5);
           this.healthBar.setPercentage(this.character.energy);
         }
       });
@@ -85,11 +90,16 @@ class World {
       });
 
       this.throwableBottles.forEach((bottle) => {
-        this.level.enemies.forEach((enemy) => {
+        this.level.enemies.forEach((enemy, index) => {
           if (bottle.isColliding(enemy)) {
-            if (enemy.chickenIsDead === false) {
+            if (!enemy.chickenIsDead && !bottle.exploding && enemy instanceof Chicken) {
               bottle.explode();
-              enemy.dies();
+              enemy.dies(index);
+            } else if (!enemy.bossIsDead && !bottle.exploding && enemy instanceof Endboss) {
+              bottle.explode();
+              enemy.hit(20);
+              this.endbossHealthBar.setPercentage(enemy.energy);
+              console.log(enemy.energy);
             }
           }
         });

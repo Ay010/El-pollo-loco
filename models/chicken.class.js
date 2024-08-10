@@ -9,7 +9,6 @@ class Chicken extends MovableObject {
   height = 90;
   y = 335;
   world;
-  index;
 
   constructor() {
     super().loadImage("img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/1_walk/1_w.png");
@@ -37,11 +36,11 @@ class Chicken extends MovableObject {
     }, this.speedOfChangingToNextImage);
   }
 
-  dies() {
+  dies(index) {
     this.chickenIsDead = true;
     this.loadImage("img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png");
     setTimeout(() => {
-      this.world.level.enemies.splice(this.index, 1);
+      this.world.level.enemies.splice(index, 1);
     }, 500);
   }
 }

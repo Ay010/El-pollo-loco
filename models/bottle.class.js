@@ -14,6 +14,7 @@ class Bottle extends MovableObject {
     "img/img_pollo_locco/img/6_salsa_bottle/bottle_rotation/bottle_splash/6_bottle_splash.png",
   ];
   exploding = false;
+  startFromBeginning = false;
   width = 90;
   height = 90;
   world;
@@ -43,6 +44,10 @@ class Bottle extends MovableObject {
 
     setInterval(() => {
       if (this.exploding == true) {
+        if (!this.startFromBeginning) {
+          this.currentImage = 0;
+          this.startFromBeginning = true;
+        }
         this.playExplodeAnimationOnes(this.IMAGES_EXPLODE);
       } else {
         this.playAnimation(this.IMAGES_ROTATE);
@@ -63,10 +68,9 @@ class Bottle extends MovableObject {
       this.currentImage++;
       if (this.currentImage === images.length) {
         this.exploding = false;
+        this.world.character.isThrowing = false;
         this.world.throwableBottles.splice(this.index, 1);
       }
-    } else {
-      this.currentImage = 0;
     }
   }
 }

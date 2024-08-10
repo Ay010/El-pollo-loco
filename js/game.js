@@ -1,6 +1,7 @@
 let canvas;
 let world;
 let keyboard = new Keyboard();
+let resetJumpInterval;
 
 function init() {
   canvas = document.getElementById("canvas");
@@ -16,6 +17,12 @@ window.addEventListener("keydown", (e) => {
 
   if (keyboard.UP === false && e.code == "ArrowUp" && !world.character.isAboveGround() && !world.character.isDead()) {
     world.character.currentImage = 0;
+
+    resetJumpInterval = setInterval(() => {
+      if (!world.character.isAboveGround() && !world.character.isDead()) {
+        world.character.currentImage = 0;
+      }
+    }, 1000 / 60);
   }
 
   if (e.code == "ArrowUp") {
@@ -46,6 +53,8 @@ window.addEventListener("keyup", (e) => {
 
   if (e.code == "ArrowUp") {
     keyboard.UP = false;
+
+    clearInterval(resetJumpInterval);
   }
 
   if (e.code == "ArrowRight") {

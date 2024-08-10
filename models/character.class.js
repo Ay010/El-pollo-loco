@@ -58,82 +58,111 @@ class Character extends MovableObject {
   bottles = 0;
   isThrowing = false;
   stopAnimation = false;
+  startDeadAnimationFromBeginning = false;
+  playedJump_sound = false;
+  walking_sound = new Audio("/audio/Walking.mp3");
+  jump_sound = new Audio("/audio/Jump.mp3");
 
   constructor() {
-    super().loadImage("img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png");
+    super();
+    this.loadAllImages();
+    this.animate();
+    this.applyGravity();
+  }
+
+  loadAllImages() {
+    this.loadImage("img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.IMAGES_STANDING);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMP);
     this.loadImages(this.IMAGES_THROW);
     this.loadImages(this.IMAGES_DEAD);
     this.loadImages(this.IMAGES_HURT);
-
-    this.animate();
-    this.applyGravity();
   }
 
-  // move
   animate() {
     setInterval(() => {
-      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead()) {
-        this.moveRight();
-        this.otherDirection = false;
-      }
+      this.move();
+      this.throwBottle();
+      this.getDamage();
 
-      if (this.world.keyboard.LEFT && this.x > -50 && !this.isHurt() && !this.isDead()) {
-        this.moveLeft();
-        this.otherDirection = true;
-      }
-
-      if (
-        (this.world.keyboard.UP && !this.isAboveGround() && !this.isDead()) ||
-        (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead())
-      ) {
-        this.jump();
-      }
-
-      if (this.isDead()) {
-        setInterval(() => {
-          this.y += 2;
-        }, 500);
-      }
-
-      if (this.world.keyboard.KEY_F) {
-        if (this.bottles > 0 && !this.isThrowing) {
-          this.isThrowing = true;
-          this.bottles--;
-          let bottle = new Bottle(this.x + 50, this.y + 80, this.world, this.world.throwableBottles.length);
-          this.world.throwableBottles.push(bottle);
-          this.world.bottleBar.setPercentage(this.bottles);
-          setTimeout(() => {
-            this.isThrowing = false;
-          }, 1000);
-        }
-      }
-
-      if (this.isHurt() && this.x > 0) {
-        this.x -= 4;
+      if (!this.isAboveGround()) {
+        this.playedJump_sound = false;
       }
 
       this.world.camera_x = -this.x + 100;
     }, 1000 / 60);
 
-    // Animations
     setInterval(() => {
-      if (this.isDead()) {
-        this.playDeadAnimationOnes(this.IMAGES_DEAD);
-      } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      } else if (this.isAboveGround()) {
-        this.playAnimation(this.IMAGES_JUMP);
-      } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
-        this.playAnimation(this.IMAGES_WALKING);
-      } else if (this.world.keyboard.KEY_F && this.isThrowing) {
-        this.playAnimation(this.IMAGES_THROW);
-      } else {
-        this.playAnimation(this.IMAGES_STANDING);
-      }
+      this.playAllAnimations();
     }, this.speedOfChangingToNextImage);
+  }
+
+  move() {
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead()) {
+      this.moveRight();
+      this.otherDirection = false;
+    }
+    if (this.world.keyboard.LEFT && this.x > -50 && !this.isHurt() && !this.isDead()) {
+      this.moveLeft();
+      this.otherDirection = true;
+    }
+    if (
+      (this.world.keyboard.UP && !this.isAboveGround() && !this.isDead()) ||
+      (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead())
+    ) {
+      this.jump();
+    }
+    if (this.isDead()) {
+      setInterval(() => {
+        this.y += 2;
+      }, 500);
+    }
+  }
+
+  throwBottle() {
+    if (this.world.keyboard.KEY_F) {
+      if (this.bottles > 0 && !this.isThrowing) {
+        this.isThrowing = true;
+        this.bottles--;
+        let bottle = new Bottle(this.x + 50, this.y + 80, this.world, this.world.throwableBottles.length);
+        this.world.throwableBottles.push(bottle);
+        this.world.bottleBar.setPercentage(this.bottles);
+      }
+    }
+  }
+
+  getDamage() {
+    if (this.isHurt() && this.x > 0) {
+      this.x -= 4;
+    }
+  }
+
+  playAllAnimations() {
+    this.walking_sound.pause();
+
+    if (this.isDead()) {
+      if (!this.startDeadAnimationFromBeginning) {
+        this.currentImage = 0;
+        this.startDeadAnimationFromBeginning = true;
+      }
+      this.playDeadAnimationOnes(this.IMAGES_DEAD);
+    } else if (this.isHurt()) {
+      this.playAnimation(this.IMAGES_HURT);
+    } else if (this.isAboveGround()) {
+      this.playAnimation(this.IMAGES_JUMP);
+      if (!this.playedJump_sound) {
+        this.jump_sound.play();
+        this.playedJump_sound = true;
+      }
+    } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
+      this.playAnimation(this.IMAGES_WALKING);
+      this.walking_sound.play();
+    } else if (this.world.keyboard.KEY_F && this.isThrowing) {
+      this.playAnimation(this.IMAGES_THROW);
+    } else {
+      this.playAnimation(this.IMAGES_STANDING);
+    }
   }
 
   playDeadAnimationOnes(images) {
@@ -145,14 +174,12 @@ class Character extends MovableObject {
         this.stopAnimation = true;
         this.acceleration = 0;
       }
-    } else {
-      this.currentImage = 0;
     }
   }
 
   collectBottle(index) {
     if (this.bottles < 5) {
-      this.world.level.throwableObjects.splice(this.world.level.throwableObjects[index], 1);
+      this.world.level.throwableObjects.splice(index, 1);
       this.bottles++;
     }
   }
