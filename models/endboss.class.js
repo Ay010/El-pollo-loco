@@ -26,10 +26,10 @@ class Endboss extends MovableObject {
   speedOfChangingToNextImage = 160;
   world;
   damageLength = 1;
-  index;
   bossIsDead = false;
-  startDeadAnimationFromBeginning = false;
+  // startDeadAnimationFromBeginning = false;
   stopAnimation = false;
+  endbossIsDead = false;
 
   constructor() {
     super().loadImage("img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png");
@@ -41,11 +41,11 @@ class Endboss extends MovableObject {
 
   animate() {
     setInterval(() => {
-      if (this.isDead()) {
-        if (!this.startDeadAnimationFromBeginning) {
-          this.currentImage = 0;
-          this.startDeadAnimationFromBeginning = true;
-        }
+      if (this.isDead() && this.endbossIsDead) {
+        // if (!this.startDeadAnimationFromBeginning) {
+        //   this.currentImage = 0;
+        //   this.startDeadAnimationFromBeginning = true;
+        // }
         this.playDeadAnimationOnes(this.IMAGES_DEAD);
       } else if (this.isHurt()) {
         this.playAnimation(this.IMAGES_HURT);
@@ -60,11 +60,19 @@ class Endboss extends MovableObject {
       let path = images[this.currentImage];
       this.img = this.imageCache[path];
       this.currentImage++;
-      if (this.currentImage === images.length) {
+      if (this.currentImage >= images.length) {
         this.stopAnimation = true;
-        this.acceleration = 0;
-        this.world.level.enemies.splice(this.index, 1);
       }
     }
+  }
+
+  dies(index) {
+    this.currentImage = 0;
+    this.endbossIsDead = true;
+    setInterval(() => {
+      if (this.stopAnimation == true) {
+        this.world.level.enemies.splice(index, 1);
+      }
+    }, 100);
   }
 }

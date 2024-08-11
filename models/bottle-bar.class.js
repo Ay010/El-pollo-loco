@@ -8,7 +8,7 @@ class BottleBar extends StatusBar {
     "img/img_pollo_locco/img/7_statusbars/1_statusbar/3_statusbar_bottle/orange/100.png",
   ];
 
-  y = 60;
+  y = 50;
 
   percentage = 0;
 

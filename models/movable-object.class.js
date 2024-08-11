@@ -12,6 +12,10 @@ class MovableObject extends DrawableObject {
       if (this.isAboveGround() || this.speedY > 0 || this instanceof Bottle) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
+
+        if (!this.isAboveGround() && this instanceof Character) {
+          this.y = 205;
+        }
       }
     }, 1000 / 25);
   }
@@ -21,6 +25,10 @@ class MovableObject extends DrawableObject {
   }
 
   isColliding(obj) {
+    return this.x + this.width > obj.x && this.y + this.height > obj.y && this.x < obj.x && this.y < obj.y + obj.height;
+  }
+
+  isOn(obj) {
     return this.x + this.width > obj.x && this.y + this.height > obj.y && this.x < obj.x && this.y < obj.y + obj.height;
   }
 

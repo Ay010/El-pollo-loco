@@ -36,8 +36,9 @@ class DrawableObject {
       this instanceof Character ||
       this instanceof Chicken ||
       this instanceof Endboss ||
-      this instanceof CollectableObject ||
-      this instanceof Bottle
+      this instanceof Coin ||
+      this instanceof Bottle ||
+      this instanceof CollectableBottle
     ) {
       ctx.beginPath();
       ctx.rect(this.x, this.y, this.width, this.height);

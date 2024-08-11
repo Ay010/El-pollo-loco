@@ -1,13 +1,14 @@
-class CollectableBottle extends CollectableObject {
+class CollectableBottle extends DrawableObject {
   y = 340;
   width = 90;
   height = 90;
+
   constructor() {
     super();
     this.loadImage(this.randomImage());
-    // this.randomImage()
     this.x += Math.random() * 600 + 100;
   }
+
   randomImage() {
     let number = Math.floor(Math.random() * 2);
     if (number === 0) {

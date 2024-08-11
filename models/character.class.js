@@ -47,7 +47,7 @@ class Character extends MovableObject {
     "img/img_pollo_locco/img/2_character_pepe/5_dead/D-56.png",
     "img/img_pollo_locco/img/2_character_pepe/5_dead/D-57.png",
   ];
-  x = 100;
+  x = 120;
   y = 205;
   width = 110;
   height = 220;
@@ -56,6 +56,7 @@ class Character extends MovableObject {
   speedX = 6;
   otherDirection;
   bottles = 0;
+  coins = 0;
   isThrowing = false;
   stopAnimation = false;
   startDeadAnimationFromBeginning = false;
@@ -85,12 +86,11 @@ class Character extends MovableObject {
       this.move();
       this.throwBottle();
       this.getDamage();
-
       if (!this.isAboveGround()) {
         this.playedJump_sound = false;
       }
 
-      this.world.camera_x = -this.x + 100;
+      this.world.camera_x = -this.x + 120;
     }, 1000 / 60);
 
     setInterval(() => {
@@ -181,6 +181,13 @@ class Character extends MovableObject {
     if (this.bottles < 5) {
       this.world.level.throwableObjects.splice(index, 1);
       this.bottles++;
+    }
+  }
+
+  collectCoin(index) {
+    if (this.coins < 5) {
+      this.world.level.coins.splice(index, 1);
+      this.coins++;
     }
   }
 }
