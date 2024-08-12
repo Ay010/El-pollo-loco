@@ -99,13 +99,13 @@ class Character extends MovableObject {
   }
 
   move() {
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead()) {
-      this.moveRight();
-      this.otherDirection = false;
-    }
     if (this.world.keyboard.LEFT && this.x > -50 && !this.isHurt() && !this.isDead()) {
       this.moveLeft();
       this.otherDirection = true;
+    }
+    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead()) {
+      this.moveRight();
+      this.otherDirection = false;
     }
     if (
       (this.world.keyboard.UP && !this.isAboveGround() && !this.isDead()) ||

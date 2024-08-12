@@ -3,7 +3,12 @@
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
     <title>El pollo loco</title>
+
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Ga+Maamli&display=swap" rel="stylesheet" />
 
     <link rel="stylesheet" href="style.css" />
 
@@ -32,9 +37,23 @@
     <script src="models/world.class.js"></script>
     <script src="js/game.js"></script>
   </head>
-  <body onload="init()">
+  <body>
     <h1>El pollo loco</h1>
 
-    <canvas id="canvas" width="720px" height="480px"> </canvas>
+    <div id="canvas-container">
+      <canvas id="canvas" width="720px" height="480px"> </canvas>
+
+      <div id="start-screen" class="start-screen">
+        <button onclick="hideStartScreen(), init()">Start round</button>
+      </div>
+
+      <div id="end-screen-win" class="end-screen-win hide">
+        <button onclick="startNewGame()">New round</button>
+      </div>
+
+      <div id="end-screen-lost" class="end-screen-lost hide">
+        <button onclick="startNewGame()">New round</button>
+      </div>
+    </div>
   </body>
 </html>

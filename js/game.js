@@ -4,10 +4,23 @@ let keyboard = new Keyboard();
 let resetJumpInterval;
 
 function init() {
+  initLevel();
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
 
   console.log(world);
+}
+
+function hideStartScreen() {
+  document.getElementById("start-screen").classList.add("hide");
+}
+
+function startNewGame() {
+  document.getElementById("end-screen-win").classList.add("hide");
+  document.getElementById("end-screen-lost").classList.add("hide");
+  initLevel();
+  keyboard = new Keyboard();
+  world = new World(canvas, keyboard);
 }
 
 window.addEventListener("keydown", (e) => {

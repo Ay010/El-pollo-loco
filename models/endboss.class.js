@@ -70,8 +70,9 @@ class Endboss extends MovableObject {
     this.currentImage = 0;
     this.endbossIsDead = true;
     setInterval(() => {
-      if (this.stopAnimation == true) {
-        this.world.level.enemies.splice(index, 1);
+      if (this.stopAnimation) {
+        this.world.endbossIsDead = true;
+        // this.world.level.enemies.splice(index, 1);
       }
     }, 100);
   }

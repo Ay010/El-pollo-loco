@@ -10,6 +10,7 @@ class World {
   ctx;
   keyboard;
   camera_x = 0;
+  endbossIsDead = false;
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -18,6 +19,7 @@ class World {
     this.draw();
     this.setWorld();
     this.checkCollisions();
+    this.checkGameEnds();
   }
 
   setWorld() {
@@ -34,10 +36,10 @@ class World {
 
     this.addObjectsToMap(this.level.backgrounds);
     this.addObjectsToMap(this.level.clouds);
-    this.addObjectsToMap(this.level.enemies);
     this.addObjectsToMap(this.level.throwableObjects);
     this.addObjectsToMap(this.throwableBottles);
     this.addObjectsToMap(this.level.coins);
+    this.addObjectsToMap(this.level.enemies);
     this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);
@@ -106,7 +108,12 @@ class World {
         !enemy.chickenIsDead &&
         enemy instanceof Chicken
       ) {
+        this.character.playedJump_sound = false;
         this.character.jump();
+        if (!this.character.playedJump_sound) {
+          this.character.jump_sound.play();
+          this.character.playedJump_sound = true;
+        }
         enemy.dies(index);
       } else if (
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && !this.character.isAboveGround()) ||
@@ -162,5 +169,31 @@ class World {
         this.coinBar.setPercentage(this.character.coins);
       }
     });
+  }
+
+  checkGameEnds() {
+    setInterval(() => {
+      if (this.youWin()) {
+        document.getElementById("end-screen-win").classList.remove("hide");
+        this.character.walking_sound.pause();
+        for (let i = 0; i < 1000; i++) {
+          clearInterval(i);
+        }
+      } else if (this.youLost()) {
+        document.getElementById("end-screen-lost").classList.remove("hide");
+        this.character.walking_sound.pause();
+        for (let i = 0; i < 1000; i++) {
+          clearInterval(i);
+        }
+      }
+    }, 100);
+  }
+
+  youWin() {
+    return this.endbossIsDead;
+  }
+
+  youLost() {
+    return this.character.stopAnimation;
   }
 }
