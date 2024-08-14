@@ -4,6 +4,7 @@ class World {
   coinBar = new CoinBar();
   bottleBar = new BottleBar();
   endbossHealthBar = new EndbossHealthBar();
+  // fullScreen = new FullScreen();
   throwableBottles = [];
   level = level1;
   canvas;
@@ -46,6 +47,8 @@ class World {
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
+
+    // this.addToMap(this.fullScreen);
     if (this.character.x > 400) {
       this.addToMap(this.endbossHealthBar);
     }
@@ -178,12 +181,18 @@ class World {
         this.character.walking_sound.pause();
         for (let i = 0; i < 1000; i++) {
           clearInterval(i);
+          if (document.fullscreenElement === document.getElementById("canvas")) {
+            document.getElementById("canvas-container").requestFullscreen();
+          }
         }
       } else if (this.youLost()) {
         document.getElementById("end-screen-lost").classList.remove("hide");
         this.character.walking_sound.pause();
         for (let i = 0; i < 1000; i++) {
           clearInterval(i);
+          if (document.fullscreenElement === document.getElementById("canvas")) {
+            document.getElementById("canvas-container").requestFullscreen();
+          }
         }
       }
     }, 100);

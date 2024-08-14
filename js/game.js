@@ -18,6 +18,11 @@ function hideStartScreen() {
 function startNewGame() {
   document.getElementById("end-screen-win").classList.add("hide");
   document.getElementById("end-screen-lost").classList.add("hide");
+
+  if (document.fullscreenElement === document.getElementById("canvas-container")) {
+    document.getElementById("canvas").requestFullscreen();
+  }
+
   initLevel();
   keyboard = new Keyboard();
   world = new World(canvas, keyboard);
@@ -86,3 +91,11 @@ window.addEventListener("keyup", (e) => {
     keyboard.KEY_F = false;
   }
 });
+
+function canvasFullscreen() {
+  document.getElementById("canvas").requestFullscreen();
+}
+
+function stopGame() {
+  // CODE .....
+}

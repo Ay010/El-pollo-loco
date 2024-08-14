@@ -29,6 +29,10 @@ h1 {
 
 #canvas-container {
   position: relative;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
 canvas {
@@ -38,9 +42,44 @@ canvas {
   box-shadow: -3px 7px 15px 6px black;
 }
 
-.start-screen {
-  background-color: rgba(0, 255, 255, 0.418);
-  border-radius: 10px;
+#icon-container {
+  display: flex;
+  justify-content: space-evenly;
+  align-items: center;
+
+  position: absolute;
+  top: 0;
+  left: 50%;
+
+  transform: translateX(-50%);
+
+  padding-top: 10px;
+
+  width: 50%;
+}
+
+#icon-container svg {
+  height: 50px;
+  width: 50px;
+
+  border-radius: 100%;
+
+  transition: 0.5s;
+}
+
+#icon-container svg:hover {
+  background-color: rgba(92, 92, 92, 0.377);
+}
+
+#fullscreen-icon {
+  fill: rgba(0, 0, 0, 0.6);
+}
+
+.screen {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 
   position: absolute;
   top: 0;
@@ -48,39 +87,22 @@ canvas {
   left: 0;
   bottom: 0;
 
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  border-radius: 10px;
+
+  background-position: center;
+  background-size: cover;
+}
+
+.start-screen {
+  background-image: url(img/start-screen-bg.jpg);
 }
 
 .end-screen-win {
-  background-color: rgba(255, 251, 0, 0.466);
-  border-radius: 10px;
-
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-image: url(img/end-screen-win-bg.jpg);
 }
 
 .end-screen-lost {
-  background-color: rgba(255, 0, 0, 0.466);
-  border-radius: 10px;
-
-  position: absolute;
-  top: 0;
-  right: 0;
-  left: 0;
-  bottom: 0;
-
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  background-image: url(img/end-screen-lost-bg.jpg);
 }
 
 button {
@@ -91,6 +113,30 @@ button {
 
   border-radius: 10px;
   border: 0;
+  box-shadow: -4px 4px 10px black;
 
   background-color: wheat;
+
+  cursor: pointer;
+
+  transition: 0.17s;
+}
+
+button:hover {
+  transform: scale(1.1);
+}
+
+#lost-title,
+#win-title {
+  font-size: 50px;
+  margin: 0 0 30px 0;
+  text-shadow: -2px 3px 2px black;
+}
+
+#lost-title {
+  color: red;
+}
+
+#win-title {
+  color: green;
 }
