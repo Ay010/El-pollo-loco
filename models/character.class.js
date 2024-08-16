@@ -99,7 +99,7 @@ class Character extends MovableObject {
   }
 
   move() {
-    if (this.world.keyboard.LEFT && this.x > -50 && !this.isHurt() && !this.isDead()) {
+    if (this.world.keyboard.LEFT && this.x > -100 && !this.isHurt() && !this.isDead()) {
       this.moveLeft();
       this.otherDirection = true;
     }

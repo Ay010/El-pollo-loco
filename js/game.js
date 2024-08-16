@@ -97,5 +97,11 @@ function canvasFullscreen() {
 }
 
 function stopGame() {
-  // CODE .....
+  for (let i = 0; i < 1000; i++) {
+    clearInterval(i);
+  }
+}
+
+function continueGame() {
+  // Code ....
 }

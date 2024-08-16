@@ -6,7 +6,7 @@ class CollectableBottle extends DrawableObject {
   constructor() {
     super();
     this.loadImage(this.randomImage());
-    this.x += Math.random() * 600 + 100;
+    this.x += Math.random() * 3500 + 200;
   }
 
   randomImage() {

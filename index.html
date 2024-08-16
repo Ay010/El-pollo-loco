@@ -27,6 +27,7 @@
     <script src="models/coin.class.js"></script>
     <script src="models/character.class.js"></script>
     <script src="models/chicken.class.js"></script>
+    <script src="models/small-chicken.class.js"></script>
     <script src="models/endboss.class.js"></script>
     <script src="models/cloud.class.js"></script>
     <script src="models/backgorund-object.class.js"></script>
@@ -43,10 +44,13 @@
     <div id="canvas-container">
       <canvas id="canvas" width="720px" height="480px"> </canvas>
 
-      <div id="icon-container" onclick="canvasFullscreen()">
-        <svg id="fullscreen-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <!-- <title>fullscreen</title> -->
+      <div id="icon-container">
+        <svg onclick="canvasFullscreen()" id="fullscreen-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z" />
+        </svg>
+
+        <svg onclick="stopGame()" id="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M14,19H18V5H14M6,19H10V5H6V19Z" />
         </svg>
       </div>
 

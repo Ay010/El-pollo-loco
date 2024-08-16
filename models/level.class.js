@@ -4,7 +4,7 @@ class Level {
   backgrounds;
   throwableObjects;
   coins;
-  level_end_x = 1000;
+  level_end_x = 5000;
 
   constructor(enemies, clouds, backgrounds, throwableObjects, coins) {
     this.enemies = enemies;

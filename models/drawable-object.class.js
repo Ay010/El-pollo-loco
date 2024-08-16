@@ -35,6 +35,7 @@ class DrawableObject {
     if (
       this instanceof Character ||
       this instanceof Chicken ||
+      this instanceof SmallChicken ||
       this instanceof Endboss ||
       this instanceof Coin ||
       this instanceof Bottle ||

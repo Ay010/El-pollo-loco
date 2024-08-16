@@ -19,7 +19,7 @@ class Endboss extends MovableObject {
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G25.png",
     "img/img_pollo_locco/img/4_enemie_boss_chicken/5_dead/G26.png",
   ];
-  x = 1000;
+  x = 4000;
   y = 50;
   width = 260;
   height = 400;

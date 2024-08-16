@@ -12,6 +12,7 @@ class World {
   keyboard;
   camera_x = 0;
   endbossIsDead = false;
+  showEndbossHealthBar = false;
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -41,18 +42,19 @@ class World {
     this.addObjectsToMap(this.throwableBottles);
     this.addObjectsToMap(this.level.coins);
     this.addObjectsToMap(this.level.enemies);
-    this.addToMap(this.character);
 
     this.ctx.translate(-this.camera_x, 0);
     this.addToMap(this.healthBar);
     this.addToMap(this.bottleBar);
     this.addToMap(this.coinBar);
-
-    // this.addToMap(this.fullScreen);
-    if (this.character.x > 400) {
+    if (this.character.x > 3000 || this.showEndbossHealthBar) {
       this.addToMap(this.endbossHealthBar);
+      this.showEndbossHealthBar = true;
     }
     this.ctx.translate(this.camera_x, 0);
+
+    this.addToMap(this.character);
+
     this.ctx.translate(-this.camera_x, 0);
 
     let self = this;
@@ -105,11 +107,16 @@ class World {
   characterWithEnemy() {
     this.level.enemies.forEach((enemy, index) => {
       if (
-        this.character.isColliding(enemy) &&
-        this.character.speedY < 0 &&
-        this.character.isAboveGround() &&
-        !enemy.chickenIsDead &&
-        enemy instanceof Chicken
+        (this.character.isColliding(enemy) &&
+          this.character.speedY < 0 &&
+          this.character.isAboveGround() &&
+          !enemy.chickenIsDead &&
+          enemy instanceof Chicken) ||
+        (this.character.isColliding(enemy) &&
+          this.character.speedY < 0 &&
+          this.character.isAboveGround() &&
+          !enemy.chickenIsDead &&
+          enemy instanceof SmallChicken)
       ) {
         this.character.playedJump_sound = false;
         this.character.jump();
@@ -141,7 +148,10 @@ class World {
     this.throwableBottles.forEach((bottle) => {
       this.level.enemies.forEach((enemy, index) => {
         if (bottle.isColliding(enemy)) {
-          if (!enemy.chickenIsDead && !bottle.exploding && enemy instanceof Chicken) {
+          if (
+            (!enemy.chickenIsDead && !bottle.exploding && enemy instanceof Chicken) ||
+            (!enemy.chickenIsDead && !bottle.exploding && enemy instanceof SmallChicken)
+          ) {
             bottle.explode();
             enemy.dies(index);
           } else if (!enemy.bossIsDead && !bottle.exploding && !enemy.stopAnimation && enemy instanceof Endboss) {
@@ -181,18 +191,18 @@ class World {
         this.character.walking_sound.pause();
         for (let i = 0; i < 1000; i++) {
           clearInterval(i);
-          if (document.fullscreenElement === document.getElementById("canvas")) {
-            document.getElementById("canvas-container").requestFullscreen();
-          }
+        }
+        if (document.fullscreenElement === document.getElementById("canvas")) {
+          document.getElementById("canvas-container").requestFullscreen();
         }
       } else if (this.youLost()) {
         document.getElementById("end-screen-lost").classList.remove("hide");
         this.character.walking_sound.pause();
         for (let i = 0; i < 1000; i++) {
           clearInterval(i);
-          if (document.fullscreenElement === document.getElementById("canvas")) {
-            document.getElementById("canvas-container").requestFullscreen();
-          }
+        }
+        if (document.fullscreenElement === document.getElementById("canvas")) {
+          document.getElementById("canvas-container").requestFullscreen();
         }
       }
     }, 100);
