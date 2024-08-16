@@ -51,6 +51,8 @@ class Character extends MovableObject {
   y = 205;
   width = 110;
   height = 220;
+  offsetY = 100;
+  offsetX = 50;
   world;
   speedOfChangingToNextImage = 120;
   speedX = 6;
@@ -61,8 +63,8 @@ class Character extends MovableObject {
   stopAnimation = false;
   startDeadAnimationFromBeginning = false;
   playedJump_sound = false;
-  walking_sound = new Audio("/audio/Walking.mp3");
-  jump_sound = new Audio("/audio/Jump.mp3");
+  walking_sound = new Audio("./audio/Walking.mp3");
+  jump_sound = new Audio("./audio/Jump.mp3");
 
   constructor() {
     super();
@@ -86,9 +88,8 @@ class Character extends MovableObject {
       this.move();
       this.throwBottle();
       this.getDamage();
-      if (!this.isAboveGround()) {
-        this.playedJump_sound = false;
-      }
+
+      if (!this.isAboveGround()) this.playedJump_sound = false;
 
       this.world.camera_x = -this.x + 120;
     }, 1000 / 60);

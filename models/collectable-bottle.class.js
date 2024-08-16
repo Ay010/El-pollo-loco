@@ -2,6 +2,8 @@ class CollectableBottle extends DrawableObject {
   y = 340;
   width = 90;
   height = 90;
+  offsetX = 30;
+  offsetY = 10;
 
   constructor() {
     super();

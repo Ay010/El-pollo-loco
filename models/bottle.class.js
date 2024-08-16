@@ -30,12 +30,12 @@ class Bottle extends MovableObject {
     this.world = world;
     this.index = index;
 
+    this.speedY = 10;
     this.throw();
+    this.applyGravity();
   }
 
   throw() {
-    this.speedY = 10;
-    this.applyGravity();
     setInterval(() => {
       if (this.exploding == false) {
         this.x += 10;

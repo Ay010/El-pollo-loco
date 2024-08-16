@@ -4,6 +4,9 @@ class Coin extends MovableObject {
   speedOfChangingToNextImage = 150;
   y = 0;
   x = 0;
+  offsetY = 80;
+  secondOffsetY = 40;
+  offsetX = 80;
 
   IMAGES = ["img/img_pollo_locco/img/8_coin/coin_1.png", "img/img_pollo_locco/img/8_coin/coin_2.png"];
 

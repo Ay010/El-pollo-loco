@@ -27,9 +27,9 @@ class Endboss extends MovableObject {
   world;
   damageLength = 1;
   bossIsDead = false;
-  // startDeadAnimationFromBeginning = false;
   stopAnimation = false;
   endbossIsDead = false;
+  offsetY = 60;
 
   constructor() {
     super().loadImage("img/img_pollo_locco/img/4_enemie_boss_chicken/2_alert/G5.png");

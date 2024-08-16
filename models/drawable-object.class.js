@@ -6,6 +6,9 @@ class DrawableObject {
   img;
   imageCache = {};
   currentImage = 0;
+  offsetY = 0;
+  offsetX = 0;
+  secondOffsetY = 0;
 
   loadImage(path) {
     this.img = new Image();
@@ -42,7 +45,7 @@ class DrawableObject {
       this instanceof CollectableBottle
     ) {
       ctx.beginPath();
-      ctx.rect(this.x, this.y, this.width, this.height);
+      ctx.rect(this.x + this.offsetX / 2, this.y - this.secondOffsetY + this.offsetY, this.width - this.offsetX, this.height - this.offsetY);
       ctx.strokeStyle = "blue";
       ctx.lineWidth = "5";
       ctx.stroke();

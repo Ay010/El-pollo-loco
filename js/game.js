@@ -2,6 +2,7 @@ let canvas;
 let world;
 let keyboard = new Keyboard();
 let resetJumpInterval;
+let gameStopped = false;
 
 function init() {
   initLevel();
@@ -29,10 +30,6 @@ function startNewGame() {
 }
 
 window.addEventListener("keydown", (e) => {
-  if (e.code == "Space") {
-    keyboard.SPACE = true;
-  }
-
   if (keyboard.UP === false && e.code == "ArrowUp" && !world.character.isAboveGround() && !world.character.isDead()) {
     world.character.currentImage = 0;
 
@@ -65,10 +62,6 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keyup", (e) => {
-  if (e.code == "Space") {
-    keyboard.SPACE = false;
-  }
-
   if (e.code == "ArrowUp") {
     keyboard.UP = false;
 
@@ -100,8 +93,52 @@ function stopGame() {
   for (let i = 0; i < 1000; i++) {
     clearInterval(i);
   }
+  document.getElementById("play-icon").classList.remove("hide");
+  document.getElementById("pause-icon").classList.add("hide");
+
+  gameStopped = true;
 }
 
 function continueGame() {
-  // Code ....
+  world.checkCollisions();
+  world.checkGameEnds();
+
+  world.character.animate();
+  world.character.applyGravity();
+
+  world.level.coins.forEach((coin) => {
+    coin.animate();
+  });
+
+  world.level.enemies.forEach((enemy, index) => {
+    enemy.animate();
+
+    if (enemy.chickenIsDead || enemy.endbossIsDead) {
+      console.log(enemy);
+      enemy.dies(index);
+    }
+  });
+
+  world.level.clouds.forEach((cloud) => {
+    cloud.animate();
+  });
+
+  world.throwableBottles.forEach((bottle) => {
+    bottle.throw();
+    bottle.applyGravity();
+  });
+
+  document.getElementById("play-icon").classList.add("hide");
+  document.getElementById("pause-icon").classList.remove("hide");
+  gameStopped = false;
 }
+
+document.addEventListener("keydown", (event) => {
+  if (event.code === "Space") {
+    if (gameStopped) {
+      continueGame();
+    } else {
+      stopGame();
+    }
+  }
+});

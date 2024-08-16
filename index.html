@@ -39,7 +39,7 @@
     <script src="js/game.js"></script>
   </head>
   <body>
-    <h1>El pollo loco</h1>
+    <h1 translate="no">El pollo loco</h1>
 
     <div id="canvas-container">
       <canvas id="canvas" width="720px" height="480px"> </canvas>
@@ -51,6 +51,10 @@
 
         <svg onclick="stopGame()" id="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+        </svg>
+
+        <svg onclick="continueGame()" id="play-icon" class="hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
         </svg>
       </div>
 

@@ -4,7 +4,6 @@ class World {
   coinBar = new CoinBar();
   bottleBar = new BottleBar();
   endbossHealthBar = new EndbossHealthBar();
-  // fullScreen = new FullScreen();
   throwableBottles = [];
   level = level1;
   canvas;
@@ -101,7 +100,7 @@ class World {
       this.enemyWithThrowableObject();
       this.throwableObjectWithGround();
       this.characterWithCoin();
-    }, 100);
+    }, 50);
   }
 
   characterWithEnemy() {
