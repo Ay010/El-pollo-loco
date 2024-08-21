@@ -56,7 +56,6 @@ class Character extends MovableObject {
   world;
   speedOfChangingToNextImage = 120;
   speedX = 6;
-  otherDirection;
   bottles = 0;
   coins = 0;
   isThrowing = false;
@@ -65,6 +64,8 @@ class Character extends MovableObject {
   playedJump_sound = false;
   walking_sound = new Audio("./audio/Walking.mp3");
   jump_sound = new Audio("./audio/Jump.mp3");
+  damageFromLeft = false;
+  damageFromRight = false;
 
   constructor() {
     super();
@@ -87,11 +88,11 @@ class Character extends MovableObject {
     setInterval(() => {
       this.move();
       this.throwBottle();
-      this.getDamage();
+      this.damageRecoil();
 
       if (!this.isAboveGround()) this.playedJump_sound = false;
 
-      this.world.camera_x = -this.x + 120;
+      this.world.camera_x = -this.x + 200;
     }, 1000 / 60);
 
     setInterval(() => {
@@ -108,10 +109,7 @@ class Character extends MovableObject {
       this.moveRight();
       this.otherDirection = false;
     }
-    if (
-      (this.world.keyboard.UP && !this.isAboveGround() && !this.isDead()) ||
-      (this.world.keyboard.SPACE && !this.isAboveGround() && !this.isDead())
-    ) {
+    if (this.world.keyboard.UP && !this.isAboveGround() && !this.isDead()) {
       this.jump();
     }
     if (this.isDead()) {
@@ -133,9 +131,13 @@ class Character extends MovableObject {
     }
   }
 
-  getDamage() {
+  damageRecoil() {
     if (this.isHurt() && this.x > 0) {
-      this.x -= 4;
+      if (this.damageFromLeft) {
+        this.x += 4;
+      } else if (this.damageFromRight) {
+        this.x -= 4;
+      }
     }
   }
 

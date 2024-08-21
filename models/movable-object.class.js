@@ -3,25 +3,24 @@ class MovableObject extends DrawableObject {
   speedX = 0.15;
   speedY = 0;
   acceleration = 2.5;
-  lastHit;
+  lastHit = 0;
   energy = 100;
   damageLength = 0.5;
+  pauseTime;
+  continueTime;
+  otherDirection;
 
-  applyGravity() {
+  applyGravity(groundPosition = 200) {
     setInterval(() => {
-      if (this.isAboveGround() || this.speedY > 0 || this instanceof Bottle) {
+      if (this.isAboveGround(groundPosition) || this.speedY > 0 || this instanceof Bottle) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
 
-        if (!this.isAboveGround() && this instanceof Character) {
+        if (!this.isAboveGround(groundPosition) && this instanceof Character) {
           this.y = 205;
         }
       }
     }, 1000 / 25);
-  }
-
-  isAboveGround() {
-    return this.y < 200;
   }
 
   isColliding(obj) {
@@ -33,18 +32,33 @@ class MovableObject extends DrawableObject {
     );
   }
 
+  isAboveGround(groundPosition = 200) {
+    return this.y < groundPosition;
+  }
+
   hit(damage) {
-    this.energy -= damage;
-    if (this.isDead()) {
-      this.energy = 0;
-    } else {
-      this.lastHit = new Date().getTime();
+    let timePassed = new Date().getTime() - this.lastHit;
+    if (timePassed > 500) {
+      this.energy -= damage;
     }
+    if (this.isDead()) this.energy = 0;
+    else this.lastHit = new Date().getTime();
   }
 
   isHurt() {
+    let stoppedTime;
+    if (this.pauseTime && this.continueTime) {
+      stoppedTime = this.continueTime - this.pauseTime;
+
+      this.lastHit += stoppedTime;
+
+      this.continueTime = 0;
+      this.pauseTime = 0;
+    }
     let timePassed = new Date().getTime() - this.lastHit;
+
     timePassed = timePassed / 1000;
+
     return timePassed < this.damageLength;
   }
 
@@ -60,7 +74,7 @@ class MovableObject extends DrawableObject {
     this.x -= this.speedX;
   }
 
-  jump() {
-    this.speedY = 30;
+  jump(jumpingHight = 30) {
+    this.speedY = jumpingHight;
   }
 }

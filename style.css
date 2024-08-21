@@ -106,6 +106,12 @@ canvas {
   background-image: url(img/end-screen-lost-bg.jpg);
 }
 
+.pause-screen {
+  background-color: rgba(0, 0, 0, 0.3);
+  font-size: 100px;
+  text-shadow: -4px 4px 5px white;
+}
+
 button {
   padding: 15px;
   font-size: 30px;

@@ -3,6 +3,7 @@ let world;
 let keyboard = new Keyboard();
 let resetJumpInterval;
 let gameStopped = false;
+let continuingGame = false;
 
 function init() {
   initLevel();
@@ -44,6 +45,10 @@ window.addEventListener("keydown", (e) => {
     keyboard.UP = true;
   }
 
+  if (e.code == "Space") {
+    keyboard.SPACE = true;
+  }
+
   if (e.code == "ArrowRight") {
     keyboard.RIGHT = true;
   }
@@ -62,6 +67,10 @@ window.addEventListener("keydown", (e) => {
 });
 
 window.addEventListener("keyup", (e) => {
+  if (e.code == "Space") {
+    keyboard.SPACE = false;
+  }
+
   if (e.code == "ArrowUp") {
     keyboard.UP = false;
 
@@ -90,55 +99,85 @@ function canvasFullscreen() {
 }
 
 function stopGame() {
+  world.level.enemies.forEach((enemy) => {
+    enemy.pauseTime = new Date().getTime();
+  });
+  world.character.pauseTime = new Date().getTime();
+
   for (let i = 0; i < 1000; i++) {
     clearInterval(i);
   }
   document.getElementById("play-icon").classList.remove("hide");
   document.getElementById("pause-icon").classList.add("hide");
+  document.getElementById("pause-screen").classList.remove("hide");
+  document.getElementById("pause-screen").innerHTML = "Paused";
 
   gameStopped = true;
 }
 
 function continueGame() {
-  world.checkCollisions();
-  world.checkGameEnds();
+  continuingGame = true;
+  document.getElementById("pause-screen").innerHTML = "3";
 
-  world.character.animate();
-  world.character.applyGravity();
+  setTimeout(() => {
+    document.getElementById("pause-screen").innerHTML = "2";
+  }, 1000);
+  setTimeout(() => {
+    document.getElementById("pause-screen").innerHTML = "1";
+  }, 2000);
 
-  world.level.coins.forEach((coin) => {
-    coin.animate();
-  });
+  setTimeout(() => {
+    document.getElementById("pause-screen").classList.add("hide");
+    world.level.enemies.forEach((enemy) => {
+      enemy.continueTime = new Date().getTime();
+    });
+    world.character.continueTime = new Date().getTime();
 
-  world.level.enemies.forEach((enemy, index) => {
-    enemy.animate();
+    world.checkCollisions();
+    world.checkGameEnds();
 
-    if (enemy.chickenIsDead || enemy.endbossIsDead) {
-      console.log(enemy);
-      enemy.dies(index);
-    }
-  });
+    world.character.animate();
+    world.character.applyGravity();
 
-  world.level.clouds.forEach((cloud) => {
-    cloud.animate();
-  });
+    world.level.coins.forEach((coin) => {
+      coin.animate();
+    });
 
-  world.throwableBottles.forEach((bottle) => {
-    bottle.throw();
-    bottle.applyGravity();
-  });
+    world.level.enemies.forEach((enemy, index) => {
+      enemy.animate();
 
-  document.getElementById("play-icon").classList.add("hide");
-  document.getElementById("pause-icon").classList.remove("hide");
-  gameStopped = false;
+      if (enemy.chickenIsDead || enemy.endbossIsDead) {
+        enemy.dies(index);
+      }
+      if (enemy instanceof Endboss) {
+        enemy.applyGravity(190);
+      }
+    });
+
+    world.level.clouds.forEach((cloud) => {
+      cloud.animate();
+    });
+
+    world.throwableBottles.forEach((bottle) => {
+      bottle.throw();
+      bottle.applyGravity();
+    });
+
+    document.getElementById("play-icon").classList.add("hide");
+    document.getElementById("pause-icon").classList.remove("hide");
+
+    setTimeout(() => {
+      gameStopped = false;
+      continuingGame = false;
+    }, 500);
+  }, 3000);
 }
 
-document.addEventListener("keydown", (event) => {
+document.addEventListener("keyup", (event) => {
   if (event.code === "Space") {
-    if (gameStopped) {
-      continueGame();
-    } else {
-      stopGame();
+    if (!world.gameIsFinish && !continuingGame) {
+      if (gameStopped) continueGame();
+      else stopGame();
     }
   }
 });

@@ -11,7 +11,9 @@ class World {
   keyboard;
   camera_x = 0;
   endbossIsDead = false;
+  endbossStartWalking = false;
   showEndbossHealthBar = false;
+  gameIsFinish = false;
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -49,6 +51,9 @@ class World {
     if (this.character.x > 3000 || this.showEndbossHealthBar) {
       this.addToMap(this.endbossHealthBar);
       this.showEndbossHealthBar = true;
+    }
+    if (this.character.x > 3500) {
+      this.endbossStartWalking = true;
     }
     this.ctx.translate(this.camera_x, 0);
 
@@ -128,8 +133,15 @@ class World {
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && !this.character.isAboveGround()) ||
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && enemy instanceof Endboss)
       ) {
-        this.character.hit(5);
+        this.character.damageFromRight = false;
+        this.character.damageFromLeft = false;
+        this.character.hit(10);
         this.healthBar.setPercentage(this.character.energy);
+        if (this.character.x + this.character.width / 2 > enemy.x + enemy.width / 2) {
+          this.character.damageFromLeft = true;
+        } else {
+          this.character.damageFromRight = true;
+        }
       }
     });
   }
@@ -186,6 +198,7 @@ class World {
   checkGameEnds() {
     setInterval(() => {
       if (this.youWin()) {
+        this.gameIsFinish = true;
         document.getElementById("end-screen-win").classList.remove("hide");
         this.character.walking_sound.pause();
         for (let i = 0; i < 1000; i++) {
@@ -195,6 +208,8 @@ class World {
           document.getElementById("canvas-container").requestFullscreen();
         }
       } else if (this.youLost()) {
+        this.gameIsFinish = true;
+
         document.getElementById("end-screen-lost").classList.remove("hide");
         this.character.walking_sound.pause();
         for (let i = 0; i < 1000; i++) {
