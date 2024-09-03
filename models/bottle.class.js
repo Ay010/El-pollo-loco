@@ -37,8 +37,10 @@ class Bottle extends MovableObject {
 
   throw() {
     setInterval(() => {
-      if (this.exploding == false) {
+      if (this.exploding == false && !this.otherDirection) {
         this.x += 10;
+      } else if (this.exploding == false) {
+        this.x -= 10;
       }
     }, 25);
 

@@ -123,6 +123,7 @@ class World {
           enemy instanceof SmallChicken)
       ) {
         this.character.playedJump_sound = false;
+        this.character.currentImage = 0;
         this.character.jump();
         if (!this.character.playedJump_sound) {
           this.character.jump_sound.play();
@@ -137,6 +138,11 @@ class World {
         this.character.damageFromLeft = false;
         this.character.hit(10);
         this.healthBar.setPercentage(this.character.energy);
+        if (enemy instanceof Endboss) {
+          enemy.speedX = 0;
+          enemy.currentImage = 0;
+        }
+
         if (this.character.x + this.character.width / 2 > enemy.x + enemy.width / 2) {
           this.character.damageFromLeft = true;
         } else {

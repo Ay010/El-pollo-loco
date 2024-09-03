@@ -124,8 +124,17 @@ class Character extends MovableObject {
       if (this.bottles > 0 && !this.isThrowing) {
         this.isThrowing = true;
         this.bottles--;
-        let bottle = new Bottle(this.x + 50, this.y + 80, this.world, this.world.throwableBottles.length);
-        this.world.throwableBottles.push(bottle);
+        let bottle;
+
+        if (this.otherDirection) {
+          bottle = new Bottle(this.x - 10, this.y + 80, this.world, this.world.throwableBottles.length);
+          this.world.throwableBottles.push(bottle);
+          this.world.throwableBottles[0].otherDirection = true;
+        } else {
+          bottle = new Bottle(this.x + 50, this.y + 80, this.world, this.world.throwableBottles.length);
+          this.world.throwableBottles.push(bottle);
+        }
+
         this.world.bottleBar.setPercentage(this.bottles);
       }
     }
