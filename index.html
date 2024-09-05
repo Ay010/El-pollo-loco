@@ -41,9 +41,12 @@
   <body>
     <h1 translate="no">El pollo loco</h1>
 
+    <img class="smartphone-icon" src="img/smartphone_4142568.png" alt="" />
+
     <div id="canvas-container">
       <canvas id="canvas" width="720px" height="480px"> </canvas>
 
+      <div id="pause-screen" class="pause-screen screen hide"></div>
       <div id="icon-container">
         <svg onclick="canvasFullscreen()" id="fullscreen-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
           <path d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z" />
@@ -71,8 +74,6 @@
         <h2 id="lost-title">YOU LOST</h2>
         <button onclick="startNewGame()">New round</button>
       </div>
-
-      <div id="pause-screen" class="pause-screen screen hide"></div>
     </div>
   </body>
 </html>

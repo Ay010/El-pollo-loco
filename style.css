@@ -147,3 +147,41 @@ button:hover {
 #win-title {
   color: green;
 }
+
+.smartphone-icon {
+  display: none;
+  width: 300px;
+}
+
+@media (max-width: 730px) {
+  #canvas {
+    width: 100%;
+    border: 0px;
+  }
+
+  .smartphone-icon {
+    display: block;
+  }
+
+  #canvas-container {
+    display: none;
+  }
+}
+
+@media (max-width: 400px) {
+  h1 {
+    display: none;
+  }
+}
+
+@media (max-height: 700px) {
+  h1 {
+    display: none;
+  }
+}
+@media (max-height: 490px) {
+  #canvas {
+    height: 100vh;
+    border: 0px;
+  }
+}

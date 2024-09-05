@@ -112,11 +112,20 @@ function stopGame() {
   document.getElementById("pause-screen").classList.remove("hide");
   document.getElementById("pause-screen").innerHTML = "Paused";
 
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  }
+
   gameStopped = true;
 }
 
 function continueGame() {
   continuingGame = true;
+
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
+  }
+
   document.getElementById("pause-screen").innerHTML = "3";
 
   setTimeout(() => {
@@ -179,5 +188,11 @@ document.addEventListener("keyup", (event) => {
       if (gameStopped) continueGame();
       else stopGame();
     }
+  }
+});
+
+window.addEventListener("resize", () => {
+  if (window.matchMedia("(max-width: 730px)").matches) {
+    stopGame(); // Aufruf der stopGame Funktion, wenn Bildschirm kleiner als 740px ist
   }
 });
