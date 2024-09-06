@@ -153,6 +153,27 @@ button:hover {
   width: 300px;
 }
 
+.pfeil {
+  position: absolute;
+  bottom: 3%;
+}
+
+.right-arrow {
+  left: 110px;
+}
+
+.left-arrow {
+  left: 30px;
+}
+
+.jump-arrow {
+  right: 30px;
+}
+
+.throw-arrow {
+  right: 110px;
+}
+
 @media (max-width: 730px) {
   #canvas {
     width: 100%;

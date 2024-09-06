@@ -61,6 +61,33 @@
         </svg>
       </div>
 
+      <!-- Pfeil -->
+      <img
+        onmousedown="moveLeft()"
+        onmouseup="stopMoveLeft()"
+        onmouseleave="stopMoveLeft()"
+        class="left-arrow pfeil"
+        src="img/linker-pfeil.png"
+        alt=""
+      />
+      <img
+        onmousedown="moveRight()"
+        onmouseup="stopMoveRight()"
+        onmouseleave="stopMoveRight()"
+        class="right-arrow pfeil"
+        src="img/rechter-pfeil.png"
+        alt=""
+      />
+      <img onmousedown="jump()" onmouseup="stopJump()" onmouseleave="stopJump()" class="jump-arrow pfeil" src="img/aufwartspfeil.png" alt="" />
+      <img
+        onmousedown="throwBottle()"
+        onmouseup="stopThrowBottle()"
+        onmouseleave="stopThrowBottle()"
+        class="throw-arrow pfeil"
+        src="img/pfeil-nach-oben-rechts.png"
+        alt=""
+      />
+
       <div id="start-screen" class="start-screen screen">
         <button onclick="hideStartScreen(), init()">Start round</button>
       </div>

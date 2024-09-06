@@ -94,6 +94,42 @@ window.addEventListener("keyup", (e) => {
   }
 });
 
+function moveLeft() {
+  keyboard.LEFT = true;
+}
+function stopMoveLeft() {
+  keyboard.LEFT = false;
+}
+
+function moveRight() {
+  keyboard.RIGHT = true;
+}
+function stopMoveRight() {
+  keyboard.RIGHT = false;
+}
+
+function jump() {
+  resetJumpInterval = setInterval(() => {
+    if (!world.character.isAboveGround() && !world.character.isDead()) {
+      world.character.currentImage = 0;
+    }
+  }, 1000 / 60);
+
+  keyboard.UP = true;
+}
+function stopJump() {
+  keyboard.UP = false;
+
+  clearInterval(resetJumpInterval);
+}
+
+function throwBottle() {
+  keyboard.KEY_F = true;
+}
+function stopThrowBottle() {
+  keyboard.KEY_F = false;
+}
+
 function canvasFullscreen() {
   document.getElementById("canvas").requestFullscreen();
 }
