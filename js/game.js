@@ -156,66 +156,72 @@ function stopGame() {
 }
 
 function continueGame() {
-  continuingGame = true;
+  if (!continuingGame) {
+    continuingGame = true;
 
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
-  }
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
 
-  document.getElementById("pause-screen").innerHTML = "3";
-
-  setTimeout(() => {
-    document.getElementById("pause-screen").innerHTML = "2";
-  }, 1000);
-  setTimeout(() => {
-    document.getElementById("pause-screen").innerHTML = "1";
-  }, 2000);
-
-  setTimeout(() => {
-    document.getElementById("pause-screen").classList.add("hide");
-    world.level.enemies.forEach((enemy) => {
-      enemy.continueTime = new Date().getTime();
-    });
-    world.character.continueTime = new Date().getTime();
-
-    world.checkCollisions();
-    world.checkGameEnds();
-
-    world.character.animate();
-    world.character.applyGravity();
-
-    world.level.coins.forEach((coin) => {
-      coin.animate();
-    });
-
-    world.level.enemies.forEach((enemy, index) => {
-      enemy.animate();
-
-      if (enemy.chickenIsDead || enemy.endbossIsDead) {
-        enemy.dies(index);
-      }
-      if (enemy instanceof Endboss) {
-        enemy.applyGravity(190);
-      }
-    });
-
-    world.level.clouds.forEach((cloud) => {
-      cloud.animate();
-    });
-
-    world.throwableBottles.forEach((bottle) => {
-      bottle.throw();
-      bottle.applyGravity();
-    });
-
-    document.getElementById("play-icon").classList.add("hide");
-    document.getElementById("pause-icon").classList.remove("hide");
+    document.getElementById("pause-screen").innerHTML = "3";
 
     setTimeout(() => {
-      gameStopped = false;
-      continuingGame = false;
-    }, 500);
-  }, 3000);
+      document.getElementById("pause-screen").innerHTML = "2";
+    }, 1000);
+    setTimeout(() => {
+      document.getElementById("pause-screen").innerHTML = "1";
+    }, 2000);
+
+    setTimeout(() => {
+      document.getElementById("pause-screen").classList.add("hide");
+      world.level.enemies.forEach((enemy) => {
+        enemy.continueTime = new Date().getTime();
+      });
+      world.character.continueTime = new Date().getTime();
+
+      world.checkCollisions();
+      world.checkGameEnds();
+
+      world.character.animate();
+      world.character.applyGravity();
+
+      world.level.coins.forEach((coin) => {
+        coin.animate();
+      });
+
+      world.level.enemies.forEach((enemy, index) => {
+        enemy.animate();
+
+        if (enemy.chickenIsDead || enemy.endbossIsDead) {
+          enemy.dies(index);
+        }
+        if (enemy instanceof Endboss) {
+          enemy.applyGravity(190);
+        }
+      });
+
+      world.level.clouds.forEach((cloud) => {
+        cloud.animate();
+      });
+
+      world.throwableBottles.forEach((bottle) => {
+        bottle.throw();
+        bottle.applyGravity();
+      });
+
+      document.getElementById("play-icon").classList.add("hide");
+      document.getElementById("pause-icon").classList.remove("hide");
+
+      setTimeout(() => {
+        gameStopped = false;
+        continuingGame = false;
+      }, 500);
+    }, 3000);
+  }
+}
+
+function openPopUp() {
+  document.getElementById("howToPlayPopUp-bg").classList.remove("hide");
 }
 
 document.addEventListener("keyup", (event) => {

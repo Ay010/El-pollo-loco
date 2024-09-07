@@ -46,21 +46,6 @@
     <div id="canvas-container">
       <canvas id="canvas" width="720px" height="480px"> </canvas>
 
-      <div id="pause-screen" class="pause-screen screen hide"></div>
-      <div id="icon-container">
-        <svg onclick="canvasFullscreen()" id="fullscreen-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z" />
-        </svg>
-
-        <svg onclick="stopGame()" id="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M14,19H18V5H14M6,19H10V5H6V19Z" />
-        </svg>
-
-        <svg onclick="continueGame()" id="play-icon" class="hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
-          <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
-        </svg>
-      </div>
-
       <!-- Pfeil -->
       <img
         onmousedown="moveLeft()"
@@ -88,8 +73,25 @@
         alt=""
       />
 
+      <div id="pause-screen" class="pause-screen screen hide"></div>
+
+      <div id="icon-container">
+        <svg onclick="canvasFullscreen()" id="fullscreen-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M5,5H10V7H7V10H5V5M14,5H19V10H17V7H14V5M17,14H19V19H14V17H17V14M10,17V19H5V14H7V17H10Z" />
+        </svg>
+
+        <svg onclick="stopGame()" id="pause-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M14,19H18V5H14M6,19H10V5H6V19Z" />
+        </svg>
+
+        <svg onclick="continueGame()" id="play-icon" class="hide" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <path d="M8,5.14V19.14L19,12.14L8,5.14Z" />
+        </svg>
+      </div>
+
       <div id="start-screen" class="start-screen screen">
         <button onclick="hideStartScreen(), init()">Start round</button>
+        <button onclick="openPopUp()">How to play</button>
       </div>
 
       <div id="end-screen-win" class="end-screen-win hide screen">
@@ -100,6 +102,15 @@
       <div id="end-screen-lost" class="end-screen-lost hide screen">
         <h2 id="lost-title">YOU LOST</h2>
         <button onclick="startNewGame()">New round</button>
+      </div>
+    </div>
+
+    <div id="howToPlayPopUp-bg" class="howToPlayPopUp-bg hide">
+      <div class="howToPlayPopUp">
+        <!-- X icon -->
+
+        <!-- How to play -->
+        <h2>How to play</h2>
       </div>
     </div>
   </body>

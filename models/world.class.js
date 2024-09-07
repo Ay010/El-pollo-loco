@@ -14,6 +14,7 @@ class World {
   endbossStartWalking = false;
   showEndbossHealthBar = false;
   gameIsFinish = false;
+  chickenDeath_sound = new Audio("audio/Chicken death.mp3");
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -130,6 +131,7 @@ class World {
           this.character.playedJump_sound = true;
         }
         enemy.dies(index);
+        this.chickenDeath_sound.play();
       } else if (
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && !this.character.isAboveGround()) ||
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && enemy instanceof Endboss)
@@ -155,6 +157,10 @@ class World {
   characterWithCollectableBottle() {
     this.level.throwableObjects.forEach((throwableObject, index) => {
       if (this.character.isColliding(throwableObject)) {
+        if (this.character.bottles < 5) {
+          let collectBottle_sound = new Audio("audio/Collect Bottle.mp3");
+          collectBottle_sound.play();
+        }
         this.character.collectBottle(index);
         this.bottleBar.setPercentage(this.character.bottles);
       }
@@ -171,9 +177,13 @@ class World {
           ) {
             bottle.explode();
             enemy.dies(index);
+            let bottleSplash_sound = new Audio("audio/Bottle.mp3");
+            bottleSplash_sound.play();
           } else if (!enemy.bossIsDead && !bottle.exploding && !enemy.stopAnimation && enemy instanceof Endboss) {
             bottle.explode();
             enemy.hit(20);
+            let bottleSplash_sound = new Audio("audio/Bottle.mp3");
+            bottleSplash_sound.play();
             this.endbossHealthBar.setPercentage(enemy.energy);
             if (enemy.energy == 0 && !enemy.endbossIsDead) {
               enemy.dies(index);
@@ -188,6 +198,7 @@ class World {
     this.throwableBottles.forEach((bottle) => {
       if (bottle.y > 350) {
         bottle.explode();
+        this.bottleSplash_sound.play();
       }
     });
   }
@@ -197,6 +208,9 @@ class World {
       if (this.character.isColliding(coin)) {
         this.character.collectCoin(index);
         this.coinBar.setPercentage(this.character.coins);
+
+        let collectingCoin_sound = new Audio("audio/coin.mp3");
+        collectingCoin_sound.play();
       }
     });
   }
