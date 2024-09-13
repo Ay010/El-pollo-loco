@@ -200,6 +200,44 @@ button:hover {
   border-radius: 10px;
 }
 
+.howToPlayPopUp-headline {
+  text-align: center;
+  font-size: 30px;
+}
+
+.close-pop-up-icon {
+  position: absolute;
+
+  top: 5px;
+  right: 10px;
+
+  width: 50px;
+
+  fill: rgb(0, 0, 0);
+
+  transition: 0.2s;
+}
+
+.close-pop-up-icon:hover {
+  fill: rgba(0, 0, 0, 0.7);
+}
+
+.howToPlayPopUp-section {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+
+  gap: 30px;
+}
+
+.howToPlayPopUp-icon {
+  width: 80px;
+}
+
+.howToPlayPopUp-info {
+  font-size: 25px;
+}
+
 @media (max-width: 730px) {
   #canvas {
     width: 100%;

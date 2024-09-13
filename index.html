@@ -105,12 +105,61 @@
       </div>
     </div>
 
-    <div id="howToPlayPopUp-bg" class="howToPlayPopUp-bg hide">
-      <div class="howToPlayPopUp">
-        <!-- X icon -->
+    <div onclick="closePopUp()" id="howToPlayPopUp-bg" class="howToPlayPopUp-bg hide">
+      <div onclick="stopEvent(event)" class="howToPlayPopUp">
+        <svg class="close-pop-up-icon" onclick="closePopUp()" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+          <title>close-box</title>
+          <path
+            d="M19,3H16.3H7.7H5A2,2 0 0,0 3,5V7.7V16.4V19A2,2 0 0,0 5,21H7.7H16.4H19A2,2 0 0,0 21,19V16.3V7.7V5A2,2 0 0,0 19,3M15.6,17L12,13.4L8.4,17L7,15.6L10.6,12L7,8.4L8.4,7L12,10.6L15.6,7L17,8.4L13.4,12L17,15.6L15.6,17Z"
+          />
+        </svg>
 
-        <!-- How to play -->
-        <h2>How to play</h2>
+        <h2 class="howToPlayPopUp-headline">How to play</h2>
+
+        <div class="howToPlayPopUp-section-one howToPlayPopUp-section">
+          <svg class="howToPlayPopUp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>arrow-up-bold-box</title>
+            <path d="M19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21M12,7L7,12H10V16H14V12H17L12,7Z" />
+          </svg>
+
+          <h3 class="howToPlayPopUp-info">Jump</h3>
+        </div>
+
+        <div class="howToPlayPopUp-section-two howToPlayPopUp-section">
+          <svg class="howToPlayPopUp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>arrow-right-bold-box</title>
+            <path d="M3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19M17,12L12,7V10H8V14H12V17L17,12Z" />
+          </svg>
+
+          <h3 class="howToPlayPopUp-info">Move right</h3>
+        </div>
+
+        <div class="howToPlayPopUp-section-three howToPlayPopUp-section">
+          <svg class="howToPlayPopUp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>arrow-left-bold-box</title>
+            <path d="M21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3H19A2,2 0 0,1 21,5M7,12L12,17V14H16V10H12V7L7,12Z" />
+          </svg>
+
+          <h3 class="howToPlayPopUp-info">Move left</h3>
+        </div>
+
+        <div class="howToPlayPopUp-section-four howToPlayPopUp-section">
+          <svg class="howToPlayPopUp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>alpha-f-box</title>
+            <path d="M9,7V17H11V13H14V11H11V9H15V7H9M5,3H19A2,2 0 0,1 21,5V19A2,2 0 0,1 19,21H5A2,2 0 0,1 3,19V5A2,2 0 0,1 5,3Z" />
+          </svg>
+
+          <h3 class="howToPlayPopUp-info">Throw</h3>
+        </div>
+
+        <div class="howToPlayPopUp-section-five howToPlayPopUp-section">
+          <svg class="howToPlayPopUp-icon" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24">
+            <title>keyboard-space</title>
+            <path d="M3 15H5V19H19V15H21V19C21 20.1 20.1 21 19 21H5C3.9 21 3 20.1 3 19V15Z" />
+          </svg>
+
+          <h3 class="howToPlayPopUp-info">Pause Game</h3>
+        </div>
       </div>
     </div>
   </body>

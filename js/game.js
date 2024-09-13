@@ -135,9 +135,11 @@ function canvasFullscreen() {
 }
 
 function stopGame() {
-  world.level.enemies.forEach((enemy) => {
-    enemy.pauseTime = new Date().getTime();
-  });
+  if (world.level) {
+    world.level.enemies.forEach((enemy) => {
+      enemy.pauseTime = new Date().getTime();
+    });
+  }
   world.character.pauseTime = new Date().getTime();
 
   for (let i = 0; i < 1000; i++) {
@@ -224,8 +226,12 @@ function openPopUp() {
   document.getElementById("howToPlayPopUp-bg").classList.remove("hide");
 }
 
+function closePopUp() {
+  document.getElementById("howToPlayPopUp-bg").classList.add("hide");
+}
+
 document.addEventListener("keyup", (event) => {
-  if (event.code === "Space") {
+  if (event.code === "Space" && world) {
     if (!world.gameIsFinish && !continuingGame) {
       if (gameStopped) continueGame();
       else stopGame();
@@ -238,3 +244,7 @@ window.addEventListener("resize", () => {
     stopGame(); // Aufruf der stopGame Funktion, wenn Bildschirm kleiner als 740px ist
   }
 });
+
+function stopEvent(event) {
+  event.stopPropagation();
+}
