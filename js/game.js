@@ -4,6 +4,7 @@ let keyboard = new Keyboard();
 let resetJumpInterval;
 let gameStopped = false;
 let continuingGame = false;
+let volume = true;
 
 function init() {
   initLevel();
@@ -135,31 +136,38 @@ function canvasFullscreen() {
 }
 
 function stopGame() {
-  if (world.level) {
-    world.level.enemies.forEach((enemy) => {
-      enemy.pauseTime = new Date().getTime();
-    });
-  }
-  world.character.pauseTime = new Date().getTime();
+  if (!continuingGame) {
+    if (world.level) {
+      world.level.enemies.forEach((enemy) => {
+        enemy.pauseTime = new Date().getTime();
+      });
+    }
+    world.character.pauseTime = new Date().getTime();
 
-  for (let i = 0; i < 1000; i++) {
-    clearInterval(i);
-  }
-  document.getElementById("play-icon").classList.remove("hide");
-  document.getElementById("pause-icon").classList.add("hide");
-  document.getElementById("pause-screen").classList.remove("hide");
-  document.getElementById("pause-screen").innerHTML = "Paused";
+    for (let i = 0; i < 1000; i++) {
+      clearInterval(i);
+    }
+    document.getElementById("info-icon").classList.remove("hide");
+    document.getElementById("play-icon").classList.remove("hide");
+    document.getElementById("pause-icon").classList.add("hide");
+    document.getElementById("pause-screen").classList.remove("hide");
+    document.getElementById("pause-screen").innerHTML = "Paused";
 
-  if (document.fullscreenElement) {
-    document.exitFullscreen();
-  }
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
 
-  gameStopped = true;
+    gameStopped = true;
+  }
 }
 
 function continueGame() {
   if (!continuingGame) {
     continuingGame = true;
+
+    closePopUp();
+
+    document.getElementById("info-icon").classList.add("hide");
 
     if (document.fullscreenElement) {
       document.exitFullscreen();
@@ -220,6 +228,20 @@ function continueGame() {
       }, 500);
     }, 3000);
   }
+}
+
+function volumeOff() {
+  volume = false;
+
+  document.getElementById("volume-on-icon").classList.add("hide");
+  document.getElementById("volume-off-icon").classList.remove("hide");
+}
+
+function volumeOn() {
+  volume = true;
+
+  document.getElementById("volume-on-icon").classList.remove("hide");
+  document.getElementById("volume-off-icon").classList.add("hide");
 }
 
 function openPopUp() {

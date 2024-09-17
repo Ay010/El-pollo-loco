@@ -126,12 +126,11 @@ class World {
         this.character.playedJump_sound = false;
         this.character.currentImage = 0;
         this.character.jump();
-        if (!this.character.playedJump_sound) {
-          this.character.jump_sound.play();
-          this.character.playedJump_sound = true;
-        }
+
+        this.character.playJumpSound();
+
         enemy.dies(index);
-        this.chickenDeath_sound.play();
+        this.playChickenDeathSound();
       } else if (
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && !this.character.isAboveGround()) ||
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && enemy instanceof Endboss)
@@ -158,8 +157,7 @@ class World {
     this.level.throwableObjects.forEach((throwableObject, index) => {
       if (this.character.isColliding(throwableObject)) {
         if (this.character.bottles < 5) {
-          let collectBottle_sound = new Audio("audio/Collect Bottle.mp3");
-          collectBottle_sound.play();
+          this.playCollectBottleSound();
         }
         this.character.collectBottle(index);
         this.bottleBar.setPercentage(this.character.bottles);
@@ -177,13 +175,11 @@ class World {
           ) {
             bottle.explode();
             enemy.dies(index);
-            let bottleSplash_sound = new Audio("audio/Bottle.mp3");
-            bottleSplash_sound.play();
+            this.playBottleSplashSound();
           } else if (!enemy.bossIsDead && !bottle.exploding && !enemy.stopAnimation && enemy instanceof Endboss) {
             bottle.explode();
             enemy.hit(20);
-            let bottleSplash_sound = new Audio("audio/Bottle.mp3");
-            bottleSplash_sound.play();
+            this.playBottleSplashSound();
             this.endbossHealthBar.setPercentage(enemy.energy);
             if (enemy.energy == 0 && !enemy.endbossIsDead) {
               enemy.dies(index);
@@ -208,9 +204,7 @@ class World {
       if (this.character.isColliding(coin)) {
         this.character.collectCoin(index);
         this.coinBar.setPercentage(this.character.coins);
-
-        let collectingCoin_sound = new Audio("audio/coin.mp3");
-        collectingCoin_sound.play();
+        this.playCollectingCoinSound();
       }
     });
   }
@@ -240,6 +234,33 @@ class World {
         }
       }
     }, 100);
+  }
+
+  playChickenDeathSound() {
+    if (volume) {
+      this.chickenDeath_sound.play();
+    }
+  }
+
+  playCollectBottleSound() {
+    if (volume) {
+      let collectBottle_sound = new Audio("audio/Collect Bottle.mp3");
+      collectBottle_sound.play();
+    }
+  }
+
+  playBottleSplashSound() {
+    if (volume) {
+      let bottleSplash_sound = new Audio("audio/Bottle.mp3");
+      bottleSplash_sound.play();
+    }
+  }
+
+  playCollectingCoinSound() {
+    if (volume) {
+      let collectingCoin_sound = new Audio("audio/coin.mp3");
+      collectingCoin_sound.play();
+    }
   }
 
   youWin() {
