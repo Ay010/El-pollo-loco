@@ -135,14 +135,18 @@ class World {
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && !this.character.isAboveGround()) ||
         (this.character.isColliding(enemy) && !enemy.chickenIsDead && enemy instanceof Endboss)
       ) {
+        let bossHit = 0;
         this.character.damageFromRight = false;
         this.character.damageFromLeft = false;
-        this.character.hit(10);
-        this.healthBar.setPercentage(this.character.energy);
+
         if (enemy instanceof Endboss) {
           enemy.speedX = 0;
           enemy.currentImage = 0;
+          bossHit = 20;
         }
+
+        this.character.hit(20 + bossHit);
+        this.healthBar.setPercentage(this.character.energy);
 
         if (this.character.x + this.character.width / 2 > enemy.x + enemy.width / 2) {
           this.character.damageFromLeft = true;
@@ -180,6 +184,8 @@ class World {
             bottle.explode();
             enemy.hit(20);
             this.playBottleSplashSound();
+            enemy.isAttacking = false;
+            enemy.speedX = 1.8;
             this.endbossHealthBar.setPercentage(enemy.energy);
             if (enemy.energy == 0 && !enemy.endbossIsDead) {
               enemy.dies(index);

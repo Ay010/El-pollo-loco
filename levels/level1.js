@@ -56,7 +56,7 @@ function setBackground() {
 
 function setCollectableBottles() {
   let allCollectableBottles = [];
-  for (let i = 0; i < 10; i++) {
+  for (let i = 0; i < 15; i++) {
     allCollectableBottles.push(new CollectableBottle());
   }
   return allCollectableBottles;
