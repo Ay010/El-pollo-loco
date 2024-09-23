@@ -166,7 +166,7 @@ class Character extends MovableObject {
       this.playJumpSound();
     } else if (this.world.keyboard.RIGHT || this.world.keyboard.LEFT) {
       this.playAnimation(this.IMAGES_WALKING);
-      this.playWalkSound.play();
+      this.playWalkSound();
     } else if (this.world.keyboard.KEY_F && this.isThrowing) {
       this.playAnimation(this.IMAGES_THROW);
     } else {

@@ -27,6 +27,20 @@ h1 {
   text-shadow: -5px 4px 3px black;
 }
 
+h4 {
+  margin: 0;
+}
+
+.link {
+  /* text-decoration: none; */
+  color: black;
+  font-size: 20px;
+}
+
+.link:hover {
+  color: rgb(83, 83, 83);
+}
+
 #canvas-container {
   position: relative;
 
@@ -98,8 +112,6 @@ canvas {
 
 .start-screen {
   background-image: url(img/start-screen-bg.jpg);
-
-  gap: 50px;
 }
 
 .end-screen-win {
@@ -131,6 +143,23 @@ button {
   cursor: pointer;
 
   transition: 0.17s;
+}
+
+#imp-bg {
+  background-color: wheat;
+  box-shadow: -4px 4px 10px black;
+  border-radius: 10px;
+  padding: 50px;
+
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+}
+
+button + button {
+  margin-top: 50px;
+}
+
+h4:has(.link) {
+  padding-top: 20px;
 }
 
 button:hover {
@@ -196,10 +225,21 @@ button:hover {
   left: 50%;
   top: 50%;
 
-  padding: 50px 100px;
-
   background-color: blanchedalmond;
   border-radius: 10px;
+
+  width: 50%;
+  min-width: 310px;
+  max-width: 400px;
+
+  padding: 20px 0;
+
+  box-sizing: border-box;
+
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
 .howToPlayPopUp-headline {
@@ -230,6 +270,8 @@ button:hover {
   align-items: center;
 
   gap: 30px;
+
+  min-width: 250px;
 }
 
 .howToPlayPopUp-icon {
@@ -266,6 +308,25 @@ button:hover {
     display: none;
   }
 }
+
+@media (max-height: 600px) {
+  .howToPlayPopUp {
+    height: 100%;
+  }
+
+  .howToPlayPopUp-headline {
+    font-size: 25px;
+  }
+
+  .howToPlayPopUp-info {
+    font-size: 20px;
+  }
+
+  .howToPlayPopUp-icon {
+    width: 60px;
+  }
+}
+
 @media (max-height: 490px) {
   #canvas {
     height: 100vh;

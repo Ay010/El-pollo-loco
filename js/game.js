@@ -5,13 +5,12 @@ let resetJumpInterval;
 let gameStopped = false;
 let continuingGame = false;
 let volume = true;
+let drawFrame = false;
 
 function init() {
   initLevel();
   canvas = document.getElementById("canvas");
   world = new World(canvas, keyboard);
-
-  console.log(world);
 }
 
 function hideStartScreen() {
@@ -19,117 +18,77 @@ function hideStartScreen() {
 }
 
 function startNewGame() {
-  document.getElementById("end-screen-win").classList.add("hide");
-  document.getElementById("end-screen-lost").classList.add("hide");
-
+  hideWinAndLoseScreens();
   if (document.fullscreenElement === document.getElementById("canvas-container")) {
     document.getElementById("canvas").requestFullscreen();
   }
+  resetGame();
+}
 
+function hideWinAndLoseScreens() {
+  document.getElementById("end-screen-win").classList.add("hide");
+  document.getElementById("end-screen-lost").classList.add("hide");
+}
+
+function resetGame() {
   initLevel();
   keyboard = new Keyboard();
   world = new World(canvas, keyboard);
 }
 
 window.addEventListener("keydown", (e) => {
-  if (keyboard.UP === false && e.code == "ArrowUp" && !world.character.isAboveGround() && !world.character.isDead()) {
-    world.character.currentImage = 0;
-
-    resetJumpInterval = setInterval(() => {
-      if (!world.character.isAboveGround() && !world.character.isDead()) {
-        world.character.currentImage = 0;
-      }
-    }, 1000 / 60);
-  }
-
+  resetJumpImageInterval(e);
   if (e.code == "ArrowUp") {
+    resetJumpIntervalFunction();
     keyboard.UP = true;
   }
-
   if (e.code == "Space") {
     keyboard.SPACE = true;
   }
-
   if (e.code == "ArrowRight") {
     keyboard.RIGHT = true;
   }
-
   if (e.code == "ArrowLeft") {
     keyboard.LEFT = true;
   }
-
-  if (e.code == "ArrowDown") {
-    keyboard.DOWN = true;
-  }
-
   if (e.code == "KeyF") {
     keyboard.KEY_F = true;
   }
 });
 
-window.addEventListener("keyup", (e) => {
-  if (e.code == "Space") {
-    keyboard.SPACE = false;
+function resetJumpImageInterval(e) {
+  if (keyboard.UP === false && e.code == "ArrowUp" && !world.character.isAboveGround() && !world.character.isDead()) {
+    world.character.currentImage = 0;
+    resetJumpIntervalFunction();
   }
-
-  if (e.code == "ArrowUp") {
-    keyboard.UP = false;
-
-    clearInterval(resetJumpInterval);
-  }
-
-  if (e.code == "ArrowRight") {
-    keyboard.RIGHT = false;
-  }
-
-  if (e.code == "ArrowLeft") {
-    keyboard.LEFT = false;
-  }
-
-  if (e.code == "ArrowDown") {
-    keyboard.DOWN = false;
-  }
-
-  if (e.code == "KeyF") {
-    keyboard.KEY_F = false;
-  }
-});
-
-function moveLeft() {
-  keyboard.LEFT = true;
-}
-function stopMoveLeft() {
-  keyboard.LEFT = false;
 }
 
-function moveRight() {
-  keyboard.RIGHT = true;
-}
-function stopMoveRight() {
-  keyboard.RIGHT = false;
-}
-
-function jump() {
+function resetJumpIntervalFunction() {
   resetJumpInterval = setInterval(() => {
     if (!world.character.isAboveGround() && !world.character.isDead()) {
       world.character.currentImage = 0;
     }
   }, 1000 / 60);
-
-  keyboard.UP = true;
-}
-function stopJump() {
-  keyboard.UP = false;
-
-  clearInterval(resetJumpInterval);
 }
 
-function throwBottle() {
-  keyboard.KEY_F = true;
-}
-function stopThrowBottle() {
-  keyboard.KEY_F = false;
-}
+window.addEventListener("keyup", (e) => {
+  if (e.code == "Space") {
+    keyboard.SPACE = false;
+  }
+  if (e.code == "ArrowUp") {
+    keyboard.UP = false;
+    clearInterval(resetJumpInterval);
+  }
+  if (e.code == "ArrowRight") {
+    keyboard.RIGHT = false;
+  }
+  if (e.code == "ArrowLeft") {
+    keyboard.LEFT = false;
+  }
+  if (e.code == "KeyF") {
+    keyboard.KEY_F = false;
+  }
+});
 
 function canvasFullscreen() {
   document.getElementById("canvas").requestFullscreen();
@@ -263,7 +222,7 @@ document.addEventListener("keyup", (event) => {
 
 window.addEventListener("resize", () => {
   if (window.matchMedia("(max-width: 730px)").matches) {
-    stopGame(); // Aufruf der stopGame Funktion, wenn Bildschirm kleiner als 740px ist
+    stopGame();
   }
 });
 

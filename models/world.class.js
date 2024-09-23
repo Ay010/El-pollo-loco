@@ -15,6 +15,8 @@ class World {
   showEndbossHealthBar = false;
   gameIsFinish = false;
   chickenDeath_sound = new Audio("audio/Chicken death.mp3");
+  win_sound = new Audio("audio/Win.mp3");
+  lose_sound = new Audio("audio/Lose.mp3");
 
   constructor(canvas) {
     this.canvas = canvas;
@@ -219,6 +221,9 @@ class World {
     setInterval(() => {
       if (this.youWin()) {
         this.gameIsFinish = true;
+
+        this.playWinSound();
+
         document.getElementById("end-screen-win").classList.remove("hide");
         this.character.walking_sound.pause();
         for (let i = 0; i < 1000; i++) {
@@ -229,6 +234,8 @@ class World {
         }
       } else if (this.youLost()) {
         this.gameIsFinish = true;
+
+        this.playLoseSound();
 
         document.getElementById("end-screen-lost").classList.remove("hide");
         this.character.walking_sound.pause();
@@ -266,6 +273,18 @@ class World {
     if (volume) {
       let collectingCoin_sound = new Audio("audio/coin.mp3");
       collectingCoin_sound.play();
+    }
+  }
+
+  playWinSound() {
+    if (volume) {
+      this.win_sound.play();
+    }
+  }
+
+  playLoseSound() {
+    if (volume) {
+      this.lose_sound.play();
     }
   }
 

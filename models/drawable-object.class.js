@@ -46,9 +46,11 @@ class DrawableObject {
     ) {
       ctx.beginPath();
       ctx.rect(this.x + this.offsetX / 2, this.y - this.secondOffsetY + this.offsetY, this.width - this.offsetX, this.height - this.offsetY);
-      ctx.strokeStyle = "blue";
-      ctx.lineWidth = "5";
-      ctx.stroke();
+      if (drawFrame) {
+        ctx.strokeStyle = "blue";
+        ctx.lineWidth = "5";
+        ctx.stroke();
+      }
     }
   }
 }

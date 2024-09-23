@@ -19,6 +19,8 @@ class Bottle extends MovableObject {
   height = 90;
   world;
   index;
+  offsetY = 35;
+  offsetX = 35;
 
   constructor(x, y, world, index) {
     super();

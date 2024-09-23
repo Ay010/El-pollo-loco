@@ -39,7 +39,8 @@ class Endboss extends MovableObject {
   y = 190;
   width = 150;
   height = 250;
-  offsetY = 40;
+  offsetY = 45;
+  offsetX = 30;
   acceleration = 2;
   speedOfChangingToNextImage = 160;
   world;
