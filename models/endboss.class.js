@@ -63,24 +63,22 @@ class Endboss extends MovableObject {
   }
 
   animate() {
-    setInterval(() => {
-      if (this.isDead() && this.endbossIsDead) {
-        // if (!this.startDeadAnimationFromBeginning) {
-        //   this.currentImage = 0;
-        //   this.startDeadAnimationFromBeginning = true;
-        // }
-        this.playDeadAnimationOnes(this.IMAGES_DEAD);
-      } else if (this.isHurt()) {
-        this.playAnimation(this.IMAGES_HURT);
-      } else if (this.isAttacking) {
-        this.playAttackAnimationOnes(this.IMAGES_ATTACK);
-      } else if (this.world.endbossStartWalking) {
-        this.playAnimation(this.IMAGES_WALKING);
-      } else {
-        this.playAnimation(this.IMAGES_NORMAL_STANDING);
-      }
-    }, this.speedOfChangingToNextImage);
+    this.animateImageChange();
+    this.animateMovement();
+    this.animateAttack();
+  }
 
+  animateImageChange() {
+    setInterval(() => {
+      if (this.isDead() && this.endbossIsDead) this.playDeadAnimationOnes(this.IMAGES_DEAD);
+      else if (this.isHurt()) this.playAnimation(this.IMAGES_HURT);
+      else if (this.isAttacking) this.playAttackAnimationOnes(this.IMAGES_ATTACK);
+      else if (this.world.endbossStartWalking) this.playAnimation(this.IMAGES_WALKING);
+      else this.playAnimation(this.IMAGES_NORMAL_STANDING);
+    }, this.speedOfChangingToNextImage);
+  }
+
+  animateMovement() {
     setInterval(() => {
       if (this.world.endbossStartWalking && !this.isDead() && !this.isHurt() && !this.stopMovingAfterAttack) {
         if (this.world.character.x + this.world.character.width / 2 > this.x + this.width / 2) {
@@ -92,7 +90,9 @@ class Endboss extends MovableObject {
         }
       }
     }, 1000 / 60);
+  }
 
+  animateAttack() {
     setInterval(() => {
       if (!this.stopMovingAfterAttack) {
         let chance = Math.floor(Math.random() * 2);
@@ -124,9 +124,7 @@ class Endboss extends MovableObject {
       let path = images[this.currentImage];
       this.img = this.imageCache[path];
       this.currentImage++;
-      if (this.currentImage >= images.length) {
-        this.stopAnimation = true;
-      }
+      if (this.currentImage >= images.length) this.stopAnimation = true;
     }
   }
 
@@ -134,14 +132,11 @@ class Endboss extends MovableObject {
     this.speedX = 5;
   }
 
-  dies(index) {
+  dies() {
     this.currentImage = 0;
     this.endbossIsDead = true;
     setInterval(() => {
-      if (this.stopAnimation) {
-        this.world.endbossIsDead = true;
-        // this.world.level.enemies.splice(index, 1);
-      }
+      if (this.stopAnimation) this.world.endbossIsDead = true;
     }, 100);
   }
 }

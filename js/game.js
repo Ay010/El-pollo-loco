@@ -96,90 +96,56 @@ function canvasFullscreen() {
 
 function stopGame() {
   if (!continuingGame) {
-    if (world.level) {
-      world.level.enemies.forEach((enemy) => {
-        enemy.pauseTime = new Date().getTime();
-      });
-    }
-    world.character.pauseTime = new Date().getTime();
-
-    for (let i = 0; i < 1000; i++) {
-      clearInterval(i);
-    }
-    document.getElementById("info-icon").classList.remove("hide");
-    document.getElementById("play-icon").classList.remove("hide");
-    document.getElementById("pause-icon").classList.add("hide");
-    document.getElementById("pause-screen").classList.remove("hide");
+    savePauseTimeForEachEnemy();
+    clearAllIntervals();
+    showPlayControls();
     document.getElementById("pause-screen").innerHTML = "Paused";
-
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    }
-
+    closeFullScreen();
     gameStopped = true;
+  }
+}
+
+function savePauseTimeForEachEnemy() {
+  if (world.level) {
+    world.level.enemies.forEach((enemy) => {
+      enemy.pauseTime = new Date().getTime();
+    });
+  }
+  world.character.pauseTime = new Date().getTime();
+}
+
+function clearAllIntervals() {
+  for (let i = 0; i < 1000; i++) {
+    clearInterval(i);
+  }
+}
+
+function showPlayControls() {
+  document.getElementById("info-icon").classList.remove("hide");
+  document.getElementById("play-icon").classList.remove("hide");
+  document.getElementById("pause-icon").classList.add("hide");
+  document.getElementById("pause-screen").classList.remove("hide");
+}
+
+function closeFullScreen() {
+  if (document.fullscreenElement) {
+    document.exitFullscreen();
   }
 }
 
 function continueGame() {
   if (!continuingGame) {
     continuingGame = true;
-
     closePopUp();
-
+    closeFullScreen();
     document.getElementById("info-icon").classList.add("hide");
-
-    if (document.fullscreenElement) {
-      document.exitFullscreen();
-    }
-
-    document.getElementById("pause-screen").innerHTML = "3";
-
-    setTimeout(() => {
-      document.getElementById("pause-screen").innerHTML = "2";
-    }, 1000);
-    setTimeout(() => {
-      document.getElementById("pause-screen").innerHTML = "1";
-    }, 2000);
+    countDown();
 
     setTimeout(() => {
       document.getElementById("pause-screen").classList.add("hide");
-      world.level.enemies.forEach((enemy) => {
-        enemy.continueTime = new Date().getTime();
-      });
-      world.character.continueTime = new Date().getTime();
-
-      world.checkCollisions();
-      world.checkGameEnds();
-
-      world.character.animate();
-      world.character.applyGravity();
-
-      world.level.coins.forEach((coin) => {
-        coin.animate();
-      });
-
-      world.level.enemies.forEach((enemy, index) => {
-        enemy.animate();
-
-        if (enemy.chickenIsDead || enemy.endbossIsDead) {
-          enemy.dies(index);
-        }
-        if (enemy instanceof Endboss) {
-          enemy.applyGravity(190);
-        }
-      });
-
-      world.level.clouds.forEach((cloud) => {
-        cloud.animate();
-      });
-
-      world.throwableBottles.forEach((bottle) => {
-        bottle.throw();
-        bottle.applyGravity();
-      });
-
-      document.getElementById("play-icon").classList.add("hide");
-      document.getElementById("pause-icon").classList.remove("hide");
+      saveContinueGameTime();
+      continueIntervals();
+      changePauseIcon();
 
       setTimeout(() => {
         gameStopped = false;
@@ -187,6 +153,79 @@ function continueGame() {
       }, 500);
     }, 3000);
   }
+}
+
+function countDown() {
+  document.getElementById("pause-screen").innerHTML = "3";
+
+  setTimeout(() => {
+    document.getElementById("pause-screen").innerHTML = "2";
+  }, 1000);
+  setTimeout(() => {
+    document.getElementById("pause-screen").innerHTML = "1";
+  }, 2000);
+}
+
+function saveContinueGameTime() {
+  world.level.enemies.forEach((enemy) => {
+    enemy.continueTime = new Date().getTime();
+  });
+  world.character.continueTime = new Date().getTime();
+}
+
+function continueIntervals() {
+  continueWorldIntervals();
+  continueCharacterIntervals();
+  continueCoinIntervals();
+  continueCloudIntervals();
+  continueBottleIntervals();
+  continueEnemyIntervals();
+}
+
+function continueWorldIntervals() {
+  world.checkCollisions();
+  world.checkGameEnds();
+}
+
+function continueCharacterIntervals() {
+  world.character.animate();
+  world.character.applyGravity();
+}
+
+function continueCoinIntervals() {
+  world.level.coins.forEach((coin) => {
+    coin.animate();
+  });
+}
+
+function continueCloudIntervals() {
+  world.level.clouds.forEach((cloud) => {
+    cloud.animate();
+  });
+}
+
+function continueBottleIntervals() {
+  world.throwableBottles.forEach((bottle) => {
+    bottle.throw();
+    bottle.applyGravity();
+  });
+}
+
+function continueEnemyIntervals() {
+  world.level.enemies.forEach((enemy, index) => {
+    enemy.animate();
+    if (enemy.chickenIsDead || enemy.endbossIsDead) {
+      enemy.dies(index);
+    }
+    if (enemy instanceof Endboss) {
+      enemy.applyGravity(190);
+    }
+  });
+}
+
+function changePauseIcon() {
+  document.getElementById("play-icon").classList.add("hide");
+  document.getElementById("pause-icon").classList.remove("hide");
 }
 
 function volumeOff() {

@@ -89,65 +89,45 @@ class Character extends MovableObject {
       this.move();
       this.throwBottle();
       this.damageRecoil();
-
       if (!this.isAboveGround()) this.playedJump_sound = false;
-
       this.world.camera_x = -this.x + 200;
     }, 1000 / 60);
 
-    setInterval(() => {
-      this.playAllAnimations();
-    }, this.speedOfChangingToNextImage);
+    setInterval(() => this.playAllAnimations(), this.speedOfChangingToNextImage);
   }
 
   move() {
-    if (this.world.keyboard.LEFT && this.x > -100 && !this.isHurt() && !this.isDead()) {
-      this.moveLeft();
-      this.otherDirection = true;
+    if (!this.isHurt() && !this.isDead()) {
+      if (this.world.keyboard.LEFT && this.x > -100) {
+        this.moveLeft();
+        this.otherDirection = true;
+      }
+      if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x) {
+        this.moveRight();
+        this.otherDirection = false;
+      }
+      if (this.world.keyboard.UP && !this.isAboveGround()) this.jump();
     }
-    if (this.world.keyboard.RIGHT && this.x < this.world.level.level_end_x && !this.isHurt() && !this.isDead()) {
-      this.moveRight();
-      this.otherDirection = false;
-    }
-    if (this.world.keyboard.UP && !this.isAboveGround() && !this.isDead()) {
-      this.jump();
-    }
-    if (this.isDead()) {
-      setInterval(() => {
-        this.y += 2;
-      }, 500);
-    }
+
+    if (this.isDead()) setInterval(() => (this.y += 2), 500);
   }
 
   throwBottle() {
-    if (this.world.keyboard.KEY_F) {
-      if (this.bottles > 0 && !this.isThrowing) {
-        this.isThrowing = true;
-        this.bottles--;
-        let bottle;
+    if (this.world.keyboard.KEY_F && this.bottles > 0 && !this.isThrowing) {
+      this.isThrowing = true;
+      this.bottles--;
 
-        if (this.otherDirection) {
-          bottle = new Bottle(this.x - 10, this.y + 80, this.world, this.world.throwableBottles.length);
-          this.world.throwableBottles.push(bottle);
-          this.world.throwableBottles[0].otherDirection = true;
-        } else {
-          bottle = new Bottle(this.x + 50, this.y + 80, this.world, this.world.throwableBottles.length);
-          this.world.throwableBottles.push(bottle);
-        }
+      let xOffset = this.otherDirection ? -10 : 50;
+      let bottle = new Bottle(this.x + xOffset, this.y + 80, this.world, this.world.throwableBottles.length);
+      this.world.throwableBottles.push(bottle);
+      if (this.otherDirection) bottle.otherDirection = true;
 
-        this.world.bottleBar.setPercentage(this.bottles);
-      }
+      this.world.bottleBar.setPercentage(this.bottles);
     }
   }
 
   damageRecoil() {
-    if (this.isHurt() && this.x > 0) {
-      if (this.damageFromLeft) {
-        this.x += 4;
-      } else if (this.damageFromRight) {
-        this.x -= 4;
-      }
-    }
+    if (this.isHurt() && this.x > 0) this.x += this.damageFromLeft ? 4 : this.damageFromRight ? -4 : 0;
   }
 
   playAllAnimations() {
@@ -175,7 +155,7 @@ class Character extends MovableObject {
   }
 
   playDeadAnimationOnes(images) {
-    if (this.currentImage < images.length && this.stopAnimation === false) {
+    if (this.currentImage < images.length && !this.stopAnimation) {
       let path = images[this.currentImage];
       this.img = this.imageCache[path];
       this.currentImage++;
@@ -208,8 +188,6 @@ class Character extends MovableObject {
   }
 
   playWalkSound() {
-    if (volume) {
-      this.walking_sound.play();
-    }
+    if (volume) this.walking_sound.play();
   }
 }

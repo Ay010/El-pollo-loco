@@ -39,11 +39,8 @@ class Bottle extends MovableObject {
 
   throw() {
     setInterval(() => {
-      if (this.exploding == false && !this.otherDirection) {
-        this.x += 10;
-      } else if (this.exploding == false) {
-        this.x -= 10;
-      }
+      if (this.exploding == false && !this.otherDirection) this.x += 10;
+      else if (this.exploding == false) this.x -= 10;
     }, 25);
 
     setInterval(() => {
@@ -53,9 +50,7 @@ class Bottle extends MovableObject {
           this.startFromBeginning = true;
         }
         this.playExplodeAnimationOnes(this.IMAGES_EXPLODE);
-      } else {
-        this.playAnimation(this.IMAGES_ROTATE);
-      }
+      } else this.playAnimation(this.IMAGES_ROTATE);
     }, 100);
   }
 

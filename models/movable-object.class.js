@@ -15,10 +15,7 @@ class MovableObject extends DrawableObject {
       if (this.isAboveGround(groundPosition) || this.speedY > 0 || this instanceof Bottle) {
         this.y -= this.speedY;
         this.speedY -= this.acceleration;
-
-        if (!this.isAboveGround(groundPosition) && this instanceof Character) {
-          this.y = 205;
-        }
+        if (!this.isAboveGround(groundPosition) && this instanceof Character) this.y = 205;
       }
     }, 1000 / 25);
   }
@@ -49,16 +46,12 @@ class MovableObject extends DrawableObject {
     let stoppedTime;
     if (this.pauseTime && this.continueTime) {
       stoppedTime = this.continueTime - this.pauseTime;
-
       this.lastHit += stoppedTime;
-
       this.continueTime = 0;
       this.pauseTime = 0;
     }
     let timePassed = new Date().getTime() - this.lastHit;
-
     timePassed = timePassed / 1000;
-
     return timePassed < this.damageLength;
   }
 
