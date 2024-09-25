@@ -152,6 +152,7 @@ button {
   padding: 50px;
 
   font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  position: relative;
 }
 
 button + button {
