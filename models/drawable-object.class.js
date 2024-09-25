@@ -10,11 +10,17 @@ class DrawableObject {
   offsetX = 0;
   secondOffsetY = 0;
 
+  /**
+   * Loads an image from the specified path.
+   */
   loadImage(path) {
     this.img = new Image();
     this.img.src = path;
   }
 
+  /**
+   * Loads multiple images from an array of paths and caches them.
+   */
   loadImages(arr) {
     arr.forEach((path) => {
       let img = new Image();
@@ -23,6 +29,9 @@ class DrawableObject {
     });
   }
 
+  /**
+   * Plays the animation by cycling through the provided images.
+   */
   playAnimation(images) {
     let i = this.currentImage % images.length;
     let path = images[i];
@@ -30,10 +39,16 @@ class DrawableObject {
     this.currentImage++;
   }
 
+  /**
+   * Draws the current image on the canvas at the specified position.
+   */
   draw(ctx) {
     ctx.drawImage(this.img, this.x, this.y, this.width, this.height);
   }
 
+  /**
+   * Draws a frame around the object for debugging purposes.
+   */
   drawFrame(ctx) {
     if (
       this instanceof Character ||

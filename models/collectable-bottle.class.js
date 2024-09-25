@@ -11,6 +11,9 @@ class CollectableBottle extends DrawableObject {
     this.x += Math.random() * 3500 + 200;
   }
 
+  /**
+   * Returns a random salsa bottle image path.
+   */
   randomImage() {
     let number = Math.floor(Math.random() * 2);
     if (number === 0) return "img/img_pollo_locco/img/6_salsa_bottle/1_salsa_bottle_on_ground.png";

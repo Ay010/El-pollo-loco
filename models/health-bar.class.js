@@ -18,6 +18,11 @@ class HealthBar extends StatusBar {
     this.loadImages(this.IMAGES);
   }
 
+  /**
+   * Resolves the index of the image based on the current percentage.
+   *
+   * @returns {number} - The index of the image corresponding to the percentage.
+   */
   resolveImagesIndex() {
     if (this.percentage === 100) return 5;
     else if (this.percentage >= 80) return 4;

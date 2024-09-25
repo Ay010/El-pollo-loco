@@ -62,12 +62,18 @@ class Endboss extends MovableObject {
     this.applyGravity(190);
   }
 
+  /**
+   * Initiates the animation cycle for the endboss.
+   */
   animate() {
     this.animateImageChange();
     this.animateMovement();
     this.animateAttack();
   }
 
+  /**
+   * Changes the character's image based on its state (dead, hurt, attacking, etc.).
+   */
   animateImageChange() {
     setInterval(() => {
       if (this.isDead() && this.endbossIsDead) this.playDeadAnimationOnes(this.IMAGES_DEAD);
@@ -78,6 +84,9 @@ class Endboss extends MovableObject {
     }, this.speedOfChangingToNextImage);
   }
 
+  /**
+   * Controls the movement of the character based on its state and position.
+   */
   animateMovement() {
     setInterval(() => {
       if (this.world.endbossStartWalking && !this.isDead() && !this.isHurt() && !this.stopMovingAfterAttack) {
@@ -92,6 +101,9 @@ class Endboss extends MovableObject {
     }, 1000 / 60);
   }
 
+  /**
+   * Randomly initiates attacks on the character.
+   */
   animateAttack() {
     setInterval(() => {
       if (!this.stopMovingAfterAttack) {
@@ -107,6 +119,9 @@ class Endboss extends MovableObject {
     }, Math.random() * 4000 + 2000);
   }
 
+  /**
+   * Plays the attack animation once, advancing through the provided images.
+   */
   playAttackAnimationOnes(images) {
     if (this.currentImage < images.length && !this.stopAnimation) {
       let path = images[this.currentImage];
@@ -119,6 +134,9 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Plays the death animation once, advancing through the provided images.
+   */
   playDeadAnimationOnes(images) {
     if (this.currentImage < images.length && !this.stopAnimation) {
       let path = images[this.currentImage];
@@ -128,10 +146,16 @@ class Endboss extends MovableObject {
     }
   }
 
+  /**
+   * Executes an attack by increasing the speed of the endboss.
+   */
   attack() {
     this.speedX = 5;
   }
 
+  /**
+   * Marks the endboss as dead and manages the endboss state.
+   */
   dies() {
     this.currentImage = 0;
     this.endbossIsDead = true;

@@ -18,6 +18,9 @@ class BottleBar extends StatusBar {
     this.loadImages(this.IMAGES);
   }
 
+  /**
+   * Resolves the index of images based on the current percentage.
+   */
   resolveImagesIndex() {
     return this.percentage;
   }

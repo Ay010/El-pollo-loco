@@ -19,6 +19,9 @@ class SmallChicken extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Starts the animation for the chicken, moving it left and playing the walking animation.
+   */
   animate() {
     setInterval(() => {
       if (this.chickenIsDead === false) {
@@ -33,6 +36,11 @@ class SmallChicken extends MovableObject {
     }, this.speedOfChangingToNextImage);
   }
 
+  /**
+   * Marks the chicken as dead and removes it from the level after a delay.
+   *
+   * @param {number} index - The index of the chicken in the enemies array.
+   */
   dies(index) {
     this.chickenIsDead = true;
     this.loadImage("img/img_pollo_locco/img/3_enemies_chicken/chicken_small/2_dead/dead.png");

@@ -74,6 +74,9 @@ class Character extends MovableObject {
     this.applyGravity();
   }
 
+  /**
+   * Loads all necessary images for the character's animations.
+   */
   loadAllImages() {
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.IMAGES_STANDING);
@@ -84,6 +87,9 @@ class Character extends MovableObject {
     this.loadImages(this.IMAGES_HURT);
   }
 
+  /**
+   * Animates the character's actions, including movement and camera positioning.
+   */
   animate() {
     setInterval(() => {
       this.move();
@@ -96,6 +102,9 @@ class Character extends MovableObject {
     setInterval(() => this.playAllAnimations(), this.speedOfChangingToNextImage);
   }
 
+  /**
+   * Handles the character's movement based on keyboard input.
+   */
   move() {
     if (!this.isHurt() && !this.isDead()) {
       if (this.world.keyboard.LEFT && this.x > -100) {
@@ -112,6 +121,9 @@ class Character extends MovableObject {
     if (this.isDead()) setInterval(() => (this.y += 2), 500);
   }
 
+  /**
+   * Throws a bottle if the corresponding key is pressed and bottles are available.
+   */
   throwBottle() {
     if (this.world.keyboard.KEY_F && this.bottles > 0 && !this.isThrowing) {
       this.isThrowing = true;
@@ -126,10 +138,16 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Applies recoil effect when the character is hurt.
+   */
   damageRecoil() {
     if (this.isHurt() && this.x > 0) this.x += this.damageFromLeft ? 4 : this.damageFromRight ? -4 : 0;
   }
 
+  /**
+   * Plays the appropriate animation based on the character's state.
+   */
   playAllAnimations() {
     this.walking_sound.pause();
 
@@ -154,6 +172,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Plays the dead animation for the character once.
+   */
   playDeadAnimationOnes(images) {
     if (this.currentImage < images.length && !this.stopAnimation) {
       let path = images[this.currentImage];
@@ -166,6 +187,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Collects a bottle if the character has fewer than five.
+   */
   collectBottle(index) {
     if (this.bottles < 5) {
       this.world.level.throwableObjects.splice(index, 1);
@@ -173,6 +197,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Collects a coin if the character has fewer than five.
+   */
   collectCoin(index) {
     if (this.coins < 5) {
       this.world.level.coins.splice(index, 1);
@@ -180,6 +207,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Plays the jump sound if the character is jumping and the volume is on.
+   */
   playJumpSound() {
     if (volume && !this.playedJump_sound) {
       this.jump_sound.play();
@@ -187,6 +217,9 @@ class Character extends MovableObject {
     }
   }
 
+  /**
+   * Plays the walking sound if the volume is on.
+   */
   playWalkSound() {
     if (volume) this.walking_sound.play();
   }

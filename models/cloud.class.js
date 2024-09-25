@@ -10,9 +10,10 @@ class Cloud extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Continuously moves the object to the left at a fixed frame rate.
+   */
   animate() {
-    setInterval(() => {
-      this.moveLeft();
-    }, 1000 / 60);
+    setInterval(() => this.moveLeft(), 1000 / 60);
   }
 }

@@ -19,9 +19,10 @@ class Coin extends MovableObject {
     this.y += Math.random() * 120 + 30;
   }
 
+  /**
+   * Continuously plays the animation frames at a specified interval.
+   */
   animate() {
-    setInterval(() => {
-      this.playAnimation(this.IMAGES);
-    }, this.speedOfChangingToNextImage);
+    setInterval(() => this.playAnimation(this.IMAGES), this.speedOfChangingToNextImage);
   }
 }

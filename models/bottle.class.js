@@ -37,6 +37,9 @@ class Bottle extends MovableObject {
     this.applyGravity();
   }
 
+  /**
+   * Controls the throwing animation and movement of the bottle.
+   */
   throw() {
     setInterval(() => {
       if (this.exploding == false && !this.otherDirection) this.x += 10;
@@ -54,12 +57,18 @@ class Bottle extends MovableObject {
     }, 100);
   }
 
+  /**
+   * Sets the bottle's state to exploding, stopping its movement.
+   */
   explode() {
     this.speedY = 0;
     this.acceleration = 0;
     this.exploding = true;
   }
 
+  /**
+   * Plays the explosion animation for the bottle once.
+   */
   playExplodeAnimationOnes(images) {
     if (this.currentImage < images.length) {
       let path = images[this.currentImage];

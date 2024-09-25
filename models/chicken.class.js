@@ -20,6 +20,9 @@ class Chicken extends MovableObject {
     this.animate();
   }
 
+  /**
+   * Continuously moves left and plays the walking animation if the chicken is alive.
+   */
   animate() {
     setInterval(() => {
       if (this.chickenIsDead === false) this.moveLeft();
@@ -30,11 +33,12 @@ class Chicken extends MovableObject {
     }, this.speedOfChangingToNextImage);
   }
 
+  /**
+   * Marks the chicken as dead, updates its image, and removes it from the world after a delay.
+   */
   dies(index) {
     this.chickenIsDead = true;
     this.loadImage("img/img_pollo_locco/img/3_enemies_chicken/chicken_normal/2_dead/dead.png");
-    setTimeout(() => {
-      this.world.level.enemies.splice(index, 1);
-    }, 500);
+    setTimeout(() => this.world.level.enemies.splice(index, 1), 500);
   }
 }

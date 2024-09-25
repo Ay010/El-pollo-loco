@@ -18,6 +18,9 @@ class CoinBar extends StatusBar {
     this.loadImages(this.IMAGES);
   }
 
+  /**
+   * Returns the current percentage value to determine image state.
+   */
   resolveImagesIndex() {
     return this.percentage;
   }
