@@ -36,6 +36,7 @@
     <script src="levels/level1.js"></script>
 
     <script src="models/world.class.js"></script>
+    <script src="js/stopGameFunction.js"></script>
     <script src="js/game.js"></script>
   </head>
   <body>
@@ -46,29 +47,46 @@
     <div id="canvas-container">
       <canvas id="canvas" width="720px" height="480px"> </canvas>
 
-      <!-- Pfeil -->
       <img
         onmousedown="moveLeft()"
+        ontouchstart="moveLeft()"
         onmouseup="stopMoveLeft()"
+        ontouchend="stopMoveLeft()"
         onmouseleave="stopMoveLeft()"
-        class="left-arrow pfeil"
+        class="left-arrow arrow"
         src="img/linker-pfeil.png"
         alt=""
       />
+
       <img
         onmousedown="moveRight()"
+        ontouchstart="moveRight()"
         onmouseup="stopMoveRight()"
+        ontouchend="stopMoveRight()"
         onmouseleave="stopMoveRight()"
-        class="right-arrow pfeil"
+        class="right-arrow arrow"
         src="img/rechter-pfeil.png"
         alt=""
       />
-      <img onmousedown="jump()" onmouseup="stopJump()" onmouseleave="stopJump()" class="jump-arrow pfeil" src="img/aufwartspfeil.png" alt="" />
+
+      <img
+        onmousedown="jump()"
+        ontouchstart="jump()"
+        onmouseup="stopJump()"
+        ontouchend="stopJump()"
+        onmouseleave="stopJump()"
+        class="jump-arrow arrow"
+        src="img/aufwartspfeil.png"
+        alt=""
+      />
+
       <img
         onmousedown="throwBottle()"
+        ontouchstart="throwBottle()"
         onmouseup="stopThrowBottle()"
+        ontouchend="stopThrowBottle()"
         onmouseleave="stopThrowBottle()"
-        class="throw-arrow pfeil"
+        class="throw-arrow arrow"
         src="img/pfeil-nach-oben-rechts.png"
         alt=""
       />

@@ -187,11 +187,13 @@ button:hover {
   width: 300px;
 }
 
-.pfeil {
+.arrow {
   position: absolute;
   bottom: 3%;
 
   cursor: pointer;
+  user-select: none;
+  display: none;
 }
 
 .right-arrow {
@@ -289,12 +291,22 @@ button:hover {
     border: 0px;
   }
 
-  .smartphone-icon {
-    display: block;
+  #canvas-container {
+    width: 100%;
   }
 
+  .arrow {
+    display: block;
+  }
+}
+
+@media (max-width: 550px) {
   #canvas-container {
     display: none;
+  }
+
+  .smartphone-icon {
+    display: block;
   }
 }
 
@@ -313,6 +325,10 @@ button:hover {
 @media (max-height: 600px) {
   .howToPlayPopUp {
     height: 100%;
+  }
+
+  #canvas-container {
+    width: fit-content;
   }
 
   .howToPlayPopUp-headline {

@@ -12,6 +12,18 @@ class Character extends MovableObject {
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-9.png",
     "img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-10.png",
   ];
+  IMAGES_SLEEPING = [
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-11.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-12.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-13.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-14.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-15.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-16.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-17.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-18.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-19.png",
+    "img/img_pollo_locco/img/2_character_pepe/1_idle/long_idle/I-20.png",
+  ];
   IMAGES_WALKING = [
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-21.png",
     "img/img_pollo_locco/img/2_character_pepe/2_walk/W-22.png",
@@ -66,6 +78,7 @@ class Character extends MovableObject {
   jump_sound = new Audio("./audio/Jump.mp3");
   damageFromLeft = false;
   damageFromRight = false;
+  sleepTimer = 0;
 
   constructor() {
     super();
@@ -80,6 +93,7 @@ class Character extends MovableObject {
   loadAllImages() {
     this.loadImage("img/img_pollo_locco/img/2_character_pepe/1_idle/idle/I-1.png");
     this.loadImages(this.IMAGES_STANDING);
+    this.loadImages(this.IMAGES_SLEEPING);
     this.loadImages(this.IMAGES_WALKING);
     this.loadImages(this.IMAGES_JUMP);
     this.loadImages(this.IMAGES_THROW);
@@ -115,10 +129,21 @@ class Character extends MovableObject {
         this.moveRight();
         this.otherDirection = false;
       }
+
       if (this.world.keyboard.UP && !this.isAboveGround()) this.jump();
+    }
+    if (this.world.keyboard.LEFT || this.world.keyboard.RIGHT || this.world.keyboard.KEY_F || this.world.keyboard.UP || this.isHurt()) {
+      this.resetSleepTimer();
     }
 
     if (this.isDead()) setInterval(() => (this.y += 2), 500);
+  }
+
+  /**
+   * resetSleepTimer
+   */
+  resetSleepTimer() {
+    this.sleepTimer = new Date().getTime();
   }
 
   /**
@@ -167,9 +192,17 @@ class Character extends MovableObject {
       this.playWalkSound();
     } else if (this.world.keyboard.KEY_F && this.isThrowing) {
       this.playAnimation(this.IMAGES_THROW);
+    } else if (this.characterIsSleeping()) {
+      this.playAnimation(this.IMAGES_SLEEPING);
     } else {
       this.playAnimation(this.IMAGES_STANDING);
     }
+  }
+
+  characterIsSleeping() {
+    let currentTime = new Date().getTime();
+    let timePassed = currentTime - this.sleepTimer;
+    return timePassed >= 10000;
   }
 
   /**
