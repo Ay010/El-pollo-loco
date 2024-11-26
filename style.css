@@ -285,14 +285,18 @@ button:hover {
   font-size: 25px;
 }
 
-@media (max-width: 730px) {
+@media (max-width: 730px) or (max-height: 730px) {
   #canvas {
     width: 100%;
     border: 0px;
+    max-width: 100%;
+    max-height: 100vh;
+    object-fit: contain;
   }
 
   #canvas-container {
     width: 100%;
+    max-width: 100%;
   }
 
   .arrow {
@@ -316,7 +320,7 @@ button:hover {
   }
 }
 
-@media (max-height: 700px) {
+@media (max-height: 730px) {
   h1 {
     display: none;
   }

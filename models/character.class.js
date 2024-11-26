@@ -140,7 +140,7 @@ class Character extends MovableObject {
   }
 
   /**
-   * resetSleepTimer
+   * resets the sleepTimer
    */
   resetSleepTimer() {
     this.sleepTimer = new Date().getTime();
