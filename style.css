@@ -143,6 +143,13 @@ button {
   cursor: pointer;
 
   transition: 0.17s;
+
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-touch-action: manipulation;
 }
 
 #imp-bg {
@@ -190,10 +197,17 @@ button:hover {
 .arrow {
   position: absolute;
   bottom: 3%;
-
   cursor: pointer;
   user-select: none;
   display: none;
+  height: 60px;
+  width: 60px;
+  -webkit-tap-highlight-color: transparent;
+  -webkit-touch-callout: none;
+  -webkit-user-select: none;
+  user-select: none;
+  touch-action: manipulation;
+  -webkit-touch-action: manipulation;
 }
 
 .right-arrow {
@@ -279,19 +293,52 @@ button:hover {
 
 .howToPlayPopUp-icon {
   width: 80px;
+  height: 80px;
+}
+
+.howToPlayPopUp-icon-mobile {
+  display: none;
 }
 
 .howToPlayPopUp-info {
-  font-size: 25px;
+  font-size: 20px;
 }
 
-@media (max-width: 730px) or (max-height: 730px) {
+@media (hover: none) and (pointer: coarse) {
+  .arrow {
+    display: block;
+  }
+
+  .howToPlayPopUp-icon {
+    display: none;
+  }
+
+  .howToPlayPopUp-icon-mobile {
+    display: block;
+
+    width: 60px;
+    height: 60px;
+
+    padding: 8px 0;
+  }
+
+  .pause-game-section {
+    display: none;
+  }
+}
+
+@media (hover: none) and (pointer: coarse) {
   #canvas {
     width: 100%;
     border: 0px;
     max-width: 100%;
     max-height: 100vh;
     object-fit: contain;
+    border-radius: 0;
+  }
+
+  h1 {
+    display: none;
   }
 
   #canvas-container {
@@ -353,4 +400,11 @@ button:hover {
     height: 100vh;
     border: 0px;
   }
+}
+
+.preload-images {
+  height: 0;
+  width: 0;
+  position: absolute;
+  background-image: url(img/img_pollo_locco/img/6_salsa_bottle/salsa_bottle.png);
 }
