@@ -210,6 +210,7 @@ class Character extends MovableObject {
    */
   playDeadAnimationOnes(images) {
     if (this.currentImage < images.length && !this.stopAnimation) {
+      this.world.hidePauseIcon = true;
       let path = images[this.currentImage];
       this.img = this.imageCache[path];
       this.currentImage++;

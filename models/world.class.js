@@ -18,7 +18,7 @@ class World {
   win_sound = new Audio("audio/Win.mp3");
   lose_sound = new Audio("audio/Lose.mp3");
   bottleSplash_sound = new Audio("audio/Bottle.mp3");
-
+  hidePauseIcon = false;
   constructor(canvas) {
     this.canvas = canvas;
     this.ctx = canvas.getContext("2d");

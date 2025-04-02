@@ -159,6 +159,8 @@ class Endboss extends MovableObject {
   dies() {
     this.currentImage = 0;
     this.endbossIsDead = true;
+    this.world.hidePauseIcon = true;
+
     setInterval(() => {
       if (this.stopAnimation) this.world.endbossIsDead = true;
     }, 100);

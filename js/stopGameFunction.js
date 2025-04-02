@@ -3,7 +3,9 @@
  *
  */
 function stopGame() {
-  if (!continuingGame) {
+  if (!continuingGame && !world.gameIsFinish && !world.hidePauseIcon) {
+    console.log("stopGame");
+
     savePauseTime();
     clearAllIntervals();
     showPlayControls();
